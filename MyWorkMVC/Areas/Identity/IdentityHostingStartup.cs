@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyWorkMVC.Data;
+using MyWorkMVC.Models;
 
 [assembly: HostingStartup(typeof(MyWorkMVC.Areas.Identity.IdentityHostingStartup))]
 namespace MyWorkMVC.Areas.Identity

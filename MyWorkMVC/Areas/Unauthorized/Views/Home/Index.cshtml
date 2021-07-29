@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+
+<div style="min-height: 70vh; display: flex; justify-content: center; align-items: center; ">
+    <div class="bg-white p-5 border text-center">
+        <h4 class="mb-4">Welcome to mywork</h4>
+        <h6>Functional Upwork.com clone using ASP.NET MVC</h6>
+        <hr />
+        <div class="mt-4">
+            <p>Demo Logins</p>
+            <form asp-action="DemoClientLogin">
+                <button type="submit" class="btn btn-success rounded-pill w-75 my-2">Log in as Client</button>
+            </form>
+            <form asp-action="DemoFreelancerLogin">
+                <button type="submit" class="btn btn-success rounded-pill w-75 my-2">Log in as Freelancer</button>
+            </form>
+        </div>
+    </div>
+</div>

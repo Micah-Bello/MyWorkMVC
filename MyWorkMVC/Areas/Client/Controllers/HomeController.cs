@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyWorkMVC.Models;
+using MyWorkMVC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyWorkMVC.Controllers
+namespace MyWorkMVC.Areas.Client.Controllers
 {
     public class HomeController : Controller
     {
@@ -20,7 +21,9 @@ namespace MyWorkMVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            FeedModel feed = new();
+
+            return View(feed);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
