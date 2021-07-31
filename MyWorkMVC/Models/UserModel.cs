@@ -27,14 +27,15 @@ namespace MyWorkMVC.Models
             get { return $"{FirstName} {LastName}"; }
         }
 
-        [Required]
-        public DateTime Created { get; set; }
+        public DateTime Created { get; set; } = DateTime.UtcNow;
 
         public byte[] ImageData { get; set; }
         public string ContentType { get; set; }
 
         [NotMapped]
         public IFormFile Image { get; set; }
+
+        public virtual Profile Profile { get; set; }
 
     }
 }
