@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyWorkMVC.Areas.Client.Controllers
 {
+    [Area("Client")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -21,9 +22,7 @@ namespace MyWorkMVC.Areas.Client.Controllers
 
         public IActionResult Index()
         {
-            FeedModel feed = new();
-
-            return View(feed);
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace MyWorkMVC.ViewModels
 {
-    public class FeedModel
+    public class FeedViewModel
     {
+        public string Title { get; set; }
     }
 }

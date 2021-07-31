@@ -22,7 +22,10 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
 
         public IActionResult Index()
         {
-            FeedModel feed = new();
+            FeedViewModel feed = new()
+            {
+                Title = "ASP.NET Developer"
+            };
 
             return View(feed);
         }
