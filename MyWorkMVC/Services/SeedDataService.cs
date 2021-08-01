@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MyWorkMVC.Data;
@@ -20,7 +21,7 @@ namespace MyWorkMVC.Services
 
         public SeedDataService(ApplicationDbContext context,
                             RoleManager<IdentityRole> roleManager,
-                            UserManager<UserModel> userManager, 
+                            UserManager<UserModel> userManager,
                             IConfiguration config)
         {
             _context = context;

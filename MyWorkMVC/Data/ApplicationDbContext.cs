@@ -25,6 +25,7 @@ namespace MyWorkMVC.Data
         public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<Availability> Availability { get; set; }
         public DbSet<OtherExperience> OtherExperiences { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
     }
 }
