@@ -135,7 +135,7 @@
                     <div class="d-flex justify-content-end w-50">
                         <p class="fw-bold fs-4">
                             @Model.SpecializedProfile.HourlyRate.ToString("C")/hr
-                            <button class="btn-sm ms-2 rounded-circle border bg-white" data-bs-toggle="modal" data-bs-target="#editHourlyRateModal">
+                            <button class="btn-sm ms-2 rounded-circle border bg-white" data-bs-toggle="modal" data-bs-target="#editHourlyRateModal" onclick="updateFields('@Model.SpecializedProfile.HourlyRate.ToString("F")', 'hourlyRateInput')">
                                 <i class="fas fa-pen text-secondary"></i>
                             </button>
                             <button class="btn rounded-circle border ms-2"><i class="fas fa-link text-secondary"></i></button>
@@ -407,7 +407,7 @@
                                 <div class="col-7">
                                     <div class="input-icons">
                                         <i class="fas fa-dollar-sign fa-lg icon text-secondary"></i>
-                                        <input class="form-control text-end input-field" type="text" name="NewHourlyRate" required value="@Model.SpecializedProfile.HourlyRate.ToString()" />
+                                        <input class="form-control text-end input-field" id="hourlyRateInput" oninput="updateFields(this.value, this.id)" type="text" name="NewHourlyRate" required value="@Model.SpecializedProfile.HourlyRate.ToString()" />
                                     </div>
                                 </div>
                                 <div class="col-5 p-2">
@@ -428,7 +428,7 @@
                                 <div class="col-7">
                                     <div class="input-icons">
                                         <i class="fas fa-dollar-sign fa-lg icon text-secondary"></i>
-                                        <label class="text-end input-field mt-2 pe-3 text-secondary">-7.00</label>
+                                        <label class="text-end input-field mt-2 pe-3 text-secondary" id="serviceFeeLabel"></label>
                                     </div>
                                 </div>
                                 <div class="col-5 p-2">
@@ -450,7 +450,7 @@
                                 <div class="col-7">
                                     <div class="input-icons">
                                         <i class="fas fa-dollar-sign fa-lg icon text-secondary"></i>
-                                        <input class="form-control text-end input-field" type="text" value="28.00" />
+                                        <input class="form-control text-end input-field" type="text" id="actualRateInput" oninput="updateFields(this.value, this.id)"/>
                                     </div>
                                 </div>
                                 <div class="col-5 p-2">
