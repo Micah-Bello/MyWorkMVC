@@ -20,7 +20,7 @@ namespace MyWorkMVC.Models
         [StringLength(75, ErrorMessage = "The {0} must be at least {2} and no more than {1} characters long.", MinimumLength = 2)]
         public string Title { get; set; }
 
-        [StringLength(500, ErrorMessage = "The {0} must be at least {2} and no more than {1} characters long.", MinimumLength = 2)]
+        [MaxLength(500, ErrorMessage = "The {0} cannot be more than {1} characters long.")]
         public string Description { get; set; }
 
         [Required]

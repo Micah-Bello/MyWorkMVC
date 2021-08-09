@@ -24,8 +24,15 @@ namespace MyWorkMVC.Models
         [NotMapped]
         public string FullName
         {
-            get { return $"{FirstName} {LastName}"; }
+            get { return $"{ FirstName } { LastName }"; }
         }
+
+        [NotMapped]
+        public string FullNameAbbreviated
+        {
+            get { return $"{ FirstName } { LastName.Substring(0, 1) }"; }
+        }
+
 
         public DateTime Created { get; set; } = DateTime.UtcNow;
 

@@ -34,6 +34,8 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
 
             var profile = await _context.Profiles
+                .Include(p => p.User)
+                .Include(p => p.EmploymentHistory)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             if (profile == null)
@@ -83,7 +85,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                     throw;
                 }
 
-                return RedirectToAction("Index", "Profile");
+                return RedirectToAction(nameof(Index));
             }
             return NotFound();
         }
@@ -113,9 +115,29 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                     throw;
                 }
 
-                return RedirectToAction("Index", "Profile");
+                return RedirectToAction(nameof(Index));
             }
             return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEmployment(
+            [Bind("ProfileId,Company,Title,Description,City,Country,IsPresent")] EmploymentHistory employment,
+            string startMonth,
+            string startYear,
+            string endMonth,
+            string endYear)
+        {
+            if (ModelState.IsValid)
+            {
+                employment.StartDate = new DateTime(Convert.ToInt32(startYear), Convert.ToInt32(startMonth), 1);
+                employment.EndDate = new DateTime(Convert.ToInt32(endYear), Convert.ToInt32(endMonth), 1);
+                _context.Add(employment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index), nameof(Profile), "employmentHistory");
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

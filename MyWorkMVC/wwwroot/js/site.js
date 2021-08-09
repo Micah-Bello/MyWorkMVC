@@ -8,17 +8,16 @@ function updateFields(val, id) {
     var actualRate = 0;
     var hourlyRate = 0;
 
-    if (id === 'hourlyRateInput') {
-        actualRate = val * 0.8;
-        hourlyRate = Number(val);
-    }
-    else {
+    if (id === 'actualRateInput') {
         hourlyRate = val / 0.8;
         actualRate = Number(val);
     }
+    else {
+        actualRate = val * 0.8;
+        hourlyRate = Number(val);
+    }
 
     serviceFee = actualRate - hourlyRate;
-
 
     document.getElementById('serviceFeeLabel').innerText = serviceFee.toFixed(2);
     document.getElementById('actualRateInput').value = actualRate.toFixed(2);
