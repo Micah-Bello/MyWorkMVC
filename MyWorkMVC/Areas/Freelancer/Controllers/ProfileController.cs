@@ -38,7 +38,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 .Include(p => p.EmploymentHistory)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
-            if (profile == null)
+            if (profile is null)
             {
                 return NotFound();
             }
@@ -46,7 +46,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             var specializedProfile = await _context.SpecializedProfiles
                 .FirstOrDefaultAsync(sp => sp.ProfileId == profile.Id && sp.IsMainProfile);
 
-            if (specializedProfile == null)
+            if (specializedProfile is null)
             {
                 return NotFound();
             }
@@ -69,7 +69,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 var specializedProfile = await _context.SpecializedProfiles
                     .FirstOrDefaultAsync(sp => sp.Id == id);
 
-                if (specializedProfile == null)
+                if (specializedProfile is null)
                 {
                     return NotFound();
                 }
@@ -99,7 +99,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 var specializedProfile = await _context.SpecializedProfiles
                     .FirstOrDefaultAsync(sp => sp.Id == id);
 
-                if (specializedProfile == null)
+                if (specializedProfile is null)
                 {
                     return NotFound();
                 }
@@ -138,6 +138,65 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 return RedirectToAction(nameof(Index), nameof(Profile), "employmentHistory");
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditEmployment(
+            [Bind("Id,Company,Title,Description,City,Country,IsPresent")] EmploymentHistory employment,
+            string startMonth,
+            string startYear,
+            string endMonth,
+            string endYear)
+        {
+            if (ModelState.IsValid)
+            {
+                var newEmployment = await _context.EmploymentHistories
+                    .FirstOrDefaultAsync(e => e.Id == employment.Id);
+
+                if (newEmployment is null)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    newEmployment.Company = employment.Company;
+                    newEmployment.Title = employment.Title;
+                    newEmployment.Description = employment.Description;
+                    newEmployment.City = employment.City;
+                    newEmployment.Country = employment.Country;
+                    newEmployment.IsPresent = employment.IsPresent;
+                    newEmployment.StartDate = new DateTime(Convert.ToInt32(startYear), Convert.ToInt32(startMonth), 1);
+                    newEmployment.EndDate = new DateTime(Convert.ToInt32(endYear), Convert.ToInt32(endMonth), 1);
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+
+                return RedirectToAction(nameof(Index), nameof(Profile), "employmentHistory");
+
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteEmployment(int id)
+        {
+            var employment = await _context.EmploymentHistories.FindAsync(id);
+
+            if (employment is null)
+            {
+                return NotFound();
+            }
+
+            _context.EmploymentHistories.Remove(employment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), nameof(Profile), "employmentHistory");
         }
     }
 }
