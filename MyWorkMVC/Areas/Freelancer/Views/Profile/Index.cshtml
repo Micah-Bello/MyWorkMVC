@@ -1144,7 +1144,7 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <select name="startMonth" id="startMonth" class="form-select rounded-pill">
-                                <option value="" selected disabled hidden>Month</option>
+                                <option value="@DateTime.Now.Month" selected hidden>Month</option>
                                 <option value="01">January</option>
                                 <option value="02">February</option>
                                 <option value="03">March</option>
@@ -1161,7 +1161,7 @@
                         </div>
                         <div class="col-md-6">
                             <select name="startYear" id="startYear" class="form-select rounded-pill">
-                                <option value="" selected disabled hidden>Year</option>
+                                <option value="@DateTime.Now.Year" selected hidden>Year</option>
                                 @for (int i = DateTime.Now.Year; i > 1940; i--)
                                 {
                                     <option value="@i">@i</option>
@@ -1174,7 +1174,7 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <select name="endMonth" id="endMonth" class="form-select rounded-pill">
-                                <option value="" selected disabled hidden>Month</option>
+                                <option value="@DateTime.Now.Month" selected hidden>Month</option>
                                 <option value="01">January</option>
                                 <option value="02">February</option>
                                 <option value="03">March</option>
@@ -1191,7 +1191,7 @@
                         </div>
                         <div class="col-md-6">
                             <select name="endYear" id="endYear" class="form-select rounded-pill">
-                                <option value="" selected disabled hidden>Year</option>
+                                <option value="@DateTime.Now.Year" selected hidden>Year</option>
                                 @for (int i = DateTime.Now.Year; i > 1940; i--)
                                 {
                                     <option value="@i">@i</option>
