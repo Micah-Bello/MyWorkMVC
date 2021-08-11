@@ -148,7 +148,8 @@
                                     @Html.Hidden("Id", education.Id)
                                     <div class="modal-body">
                                         <p class="small fw-bold">School</p>
-                                        <input class="form-control mb-4" type="text" placeholder="Ex. Northwestern University" value="@education.School" name="School" required />
+                                        <input class="form-control mb-4" type="text" placeholder="Ex. Northwestern University" value="@education.School" name="School"
+                                               maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" required />
 
                                         <p class="small fw-bold">Dates Attended (Optional)</p>
                                         <div class="row mb-4">
@@ -210,7 +211,7 @@
                                         <input class="form-control mb-4" type="text" placeholder="Ex. Computer Science" value="@education.AreaOfStudy" name="AreaOfStudy" />
 
                                         <p class="small fw-bold">Description (Optional)</p>
-                                        <textarea class="form-control mb-5" type="text" rows="5" name="Description">@education.Description</textarea>
+                                        <textarea class="form-control mb-5" type="text" rows="5" name="Description" maxlength="500">@education.Description</textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn text-success text-decoration-none"
@@ -482,12 +483,14 @@
                         @Html.Hidden("Id", employment.Id)
                         <div class="modal-body">
                             <p class="small fw-bold">Company</p>
-                            <input class="form-control mb-4" type="text" name="Company" required value="@employment.Company" />
+                            <input class="form-control mb-4" type="text" name="Company" required
+                                   maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" value="@employment.Company" />
 
                             <p class="small fw-bold">Location</p>
                             <div class="row mb-4">
                                 <div class="col-md-6">
-                                    <input class="form-control" type="text" name="City" required value="@employment.City" />
+                                    <input class="form-control" type="text" name="City" required
+                                           maxlength="35" minlength="2" pattern=".*\S+.*" title="This field is required" value="@employment.City" />
                                 </div>
                                 <div class="col-md-4">
                                     <select name="Country" id="country" class="form-select rounded-pill" required>
@@ -744,7 +747,8 @@
 
 
                             <p class="small fw-bold">Title</p>
-                            <input class="form-control mb-4" type="text" name="Title" required value="@employment.Title" />
+                            <input class="form-control mb-4" type="text" name="Title" required
+                                   maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" value="@employment.Title" />
 
                             <p class="small fw-bold">Period</p>
                             <div class="row mb-4">
@@ -812,7 +816,7 @@
                             </div>
 
                             <p class="small fw-bold">Description (Optional)</p>
-                            <textarea class="form-control mb-5" type="text" name="Description" rows="5">@employment.Description</textarea>
+                            <textarea class="form-control mb-5" type="text" name="Description" rows="5" maxlength="500">@employment.Description</textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn text-success text-decoration-none"
@@ -884,10 +888,12 @@
                         @Html.Hidden("Id", experience.Id)
                         <div class="modal-body">
                             <p class="small fw-bold">Subject</p>
-                            <input class="form-control mb-4" type="text" name="Subject" minlength="2" pattern=".*\S+.*" title="This field is required" value="@experience.Subject" required />
+                            <input class="form-control mb-4" type="text" name="Subject" 
+                                   maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" value="@experience.Subject" required />
 
                             <p class="small fw-bold">Description</p>
-                            <textarea class="form-control mb-5" type="text" rows="8" name="Description" required>@experience.Description</textarea>
+                            <textarea class="form-control mb-5" type="text" rows="8" name="Description"
+                                      maxlength="500" minlength="2" pattern=".*\S+.*" title="This field is required" required>@experience.Description</textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn text-success text-decoration-none"
@@ -940,7 +946,8 @@
                     @Html.Hidden("Id", Model.SpecializedProfile.Id)
                     <p class="small fw-bold">Your title</p>
                     <p>Enter a single sentence description of your professional skills/experience (e.g. Expert Web Designer with Ajax experience)</p>
-                    <input class="form-control mb-5" type="text" name="NewTitle" placeholder="EXAMPLE: Web Application Developer" value="@Model.SpecializedProfile.Title" required />
+                    <input class="form-control mb-5" type="text" name="NewTitle" placeholder="EXAMPLE: Web Application Developer" 
+                           value="@Model.SpecializedProfile.Title" required maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn text-success text-decoration-none" data-bs-dismiss="modal">Cancel</button>
@@ -1059,12 +1066,14 @@
                 @Html.Hidden("ProfileId", Model.Profile.Id)
                 <div class="modal-body">
                     <p class="small fw-bold">Company</p>
-                    <input class="form-control mb-4" type="text" name="Company" required />
+                    <input class="form-control mb-4" type="text" name="Company" 
+                           required maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" />
 
                     <p class="small fw-bold">Location</p>
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <input class="form-control" type="text" name="City" required />
+                            <input class="form-control" type="text" name="City" 
+                                   required maxlength="35" minlength="2" pattern=".*\S+.*" title="This field is required" />
                         </div>
                         <div class="col-md-4">
                             <select name="Country" id="country" class="form-select rounded-pill" required>
@@ -1321,7 +1330,8 @@
 
 
                     <p class="small fw-bold">Title</p>
-                    <input class="form-control mb-4" type="text" name="Title" required />
+                    <input class="form-control mb-4" type="text" name="Title" 
+                           required maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required"/>
 
                     <p class="small fw-bold">Period</p>
                     <div class="row mb-4">
@@ -1389,7 +1399,7 @@
                     </div>
 
                     <p class="small fw-bold">Description (Optional)</p>
-                    <textarea class="form-control mb-5" type="text" name="Description" rows="5"></textarea>
+                    <textarea class="form-control mb-5" type="text" name="Description" rows="5" maxlength="500"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn text-success text-decoration-none"
@@ -1416,7 +1426,8 @@
                 @Html.Hidden("ProfileId", Model.Profile.Id)
                 <div class="modal-body">
                     <p class="small fw-bold">School</p>
-                    <input class="form-control mb-4" type="text" placeholder="Ex. Northwestern University" name="School" required />
+                    <input class="form-control mb-4" type="text" placeholder="Ex. Northwestern University" name="School" 
+                           maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" required />
 
                     <p class="small fw-bold">Dates Attended (Optional)</p>
                     <div class="row mb-4">
@@ -1457,7 +1468,7 @@
                     <input class="form-control mb-4" type="text" placeholder="Ex. Computer Science" name="AreaOfStudy" />
 
                     <p class="small fw-bold">Description (Optional)</p>
-                    <textarea class="form-control mb-5" type="text" rows="5" name="Description"></textarea>
+                    <textarea class="form-control mb-5" type="text" rows="5" name="Description" maxlength="500"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn text-success text-decoration-none"
@@ -1484,10 +1495,12 @@
                 @Html.Hidden("ProfileId", Model.Profile.Id)
                 <div class="modal-body">
                     <p class="small fw-bold">Subject</p>
-                    <input class="form-control mb-4" type="text" name="Subject" minlength="2" required />
+                    <input class="form-control mb-4" type="text" name="Subject" 
+                           maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" required />
 
                     <p class="small fw-bold">Description</p>
-                    <textarea class="form-control mb-5" type="text" rows="8" name="Description" required></textarea>
+                    <textarea class="form-control mb-5" type="text" rows="8" name="Description" 
+                              maxlength="500" minlength="2" pattern=".*\S+.*" title="This field is required" required></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn text-success text-decoration-none"
