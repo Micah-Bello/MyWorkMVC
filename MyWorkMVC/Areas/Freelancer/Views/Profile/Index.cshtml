@@ -96,28 +96,157 @@
                     </button>
                 </p>
                 <p><span class="h6">English: </span><span>Native or Bilingual</span></p>
-                <p class="fs-5 mt-4">
-                    Education <button class="btn-sm ms-2 rounded-circle border bg-white">
+                <p class="fs-5 mt-4" id="education">
+                    Education <button class="btn-sm ms-2 rounded-circle border bg-white" data-bs-toggle="modal" data-bs-target="#addEducationModal">
                         <i class="fas fa-plus text-secondary"></i>
                     </button>
                 </p>
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <p class="h6">
-                            Coder Foundry Self Paced .NET Coding Bootcamp
-                            <br>
-                            <span class="text-secondary fw-normal">2021-2021</span>
-                        </p>
+                @foreach (var education in Model.Profile.Education.OrderByDescending(e => e.StartDate))
+                {
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="h6">
+                                @education.School
+
+                                @if (education.Degree is not null)
+                                {
+                                    <br />
+                                    <span class="fw-normal small">@education.Degree</span>
+                                }
+                                @if (education.AreaOfStudy is not null)
+                                {
+                                    <br />
+                                    <span class="small fw-normal">@education.AreaOfStudy</span>
+                                }
+                                @if (education.StartDate.Year != 1 && education.EndDate.Year != 1)
+                                {
+                                    <br />
+                                    <span class="small fw-normal">@education.StartDate.Year-@education.EndDate.Year</span>
+                                }
+                            </p>
+                        </div>
+                        <div class="w-50">
+                            <button class="btn-sm ms-2 rounded-circle border bg-white" data-bs-toggle="modal" data-bs-target="#editEducationModal-@education.Id">
+                                <i class="fas fa-pen text-secondary"></i>
+                            </button>
+                            <button class="btn-sm ms-2 rounded-circle border bg-white" data-bs-toggle="modal" data-bs-target="#confirmDeleteEducationModal-@education.Id">
+                                <i class="fas fa-trash-alt text-secondary"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="w-50">
-                        <button class="btn-sm ms-2 rounded-circle border bg-white">
-                            <i class="fas fa-pen text-secondary"></i>
-                        </button>
-                        <button class="btn-sm ms-2 rounded-circle border bg-white">
-                            <i class="fas fa-trash-alt text-secondary"></i>
-                        </button>
+
+                    <!--Edit Education Modal-->
+                    <div class="modal fade" id="editEducationModal-@education.Id" tabindex="-1" aria-labelledby="editEducationModalLabel-@education.Id"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content px-3 py-2">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editEducationModalLabel-@education.Id">Edit Education</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form asp-action="EditEducation">
+                                    @Html.Hidden("Id", education.Id)
+                                    <div class="modal-body">
+                                        <p class="small fw-bold">School</p>
+                                        <input class="form-control mb-4" type="text" placeholder="Ex. Northwestern University" value="@education.School" name="School" required />
+
+                                        <p class="small fw-bold">Dates Attended (Optional)</p>
+                                        <div class="row mb-4">
+                                            <div class="col-md-5">
+                                                <select name="startYear" id="startYear" class="form-select rounded-pill">
+                                                    @if (education.StartDate.Year != 1)
+                                                    {
+                                                        <option value="@education.StartDate.Year" selected hidden>@education.StartDate.Year</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="" disabled selected hidden>From</option>
+                                                    }
+                                                    @for (int i = DateTime.Now.Year; i > 1940; i--)
+                                                    {
+                                                        <option value="@i">@i</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-5 offset-md-1">
+                                                <select name="endYear" id="endYear" class="form-select rounded-pill">
+                                                    @if (education.EndDate.Year != 1)
+                                                    {
+                                                        <option value="@education.EndDate.Year" selected hidden>@education.EndDate.Year</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="" disabled selected hidden>To (or expected graduation year)</option>
+                                                    }
+                                                    @for (int i = DateTime.Now.Year; i > 1940; i--)
+                                                    {
+                                                        <option value="@i">@i</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <p class="small fw-bold">Degree (Optional)</p>
+                                        <select name="Degree" id="Degree" class="form-select rounded-pill mb-4">
+                                            @if (education.Degree is not null)
+                                            {
+                                                <option value="@education.Degree" selected hidden>@education.Degree</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="" disabled selected hidden>Ex. Bachelor's</option>
+                                            }
+                                            <option value="Associate's degree">Associate's degree</option>
+                                            <option value="Bachelor's degree">Bachelor's degree</option>
+                                            <option value="Master's degree">Master's degree</option>
+                                            <option value="Engineer's degree">Engineer's degree</option>
+                                            <option value="Foundation degree">Foundation degree</option>
+                                            <option value="Licentiate degree">Licentiate degree</option>
+                                            <option value="High School degree">High School degree</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+
+                                        <p class="small fw-bold">Area of Study (Optional)</p>
+                                        <input class="form-control mb-4" type="text" placeholder="Ex. Computer Science" value="@education.AreaOfStudy" name="AreaOfStudy" />
+
+                                        <p class="small fw-bold">Description (Optional)</p>
+                                        <textarea class="form-control mb-5" type="text" rows="5" name="Description">@education.Description</textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn text-success text-decoration-none"
+                                                data-bs-dismiss="modal">
+                                            Cancel
+                                        </button>
+                                        <button type="submit" class="btn btn-success rounded-pill px-4">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+
+                    <!--Confirm Delete Modal-->
+                    <div class="modal fade" id="confirmDeleteEducationModal-@education.Id" tabindex="-1" aria-labelledby="confirmDeleteEducationModalLabel-@education.Id" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content px-3 py-2">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmDeleteEducationModalLabel-@education.Id">Remove education</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form asp-action="DeleteEducation">
+                                    <div class="modal-body">
+                                        @Html.Hidden("Id", education.Id)
+                                        <p>This action will remove "@education.School" from all of your profiles. Are you sure to want to remove "@education.School"?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn text-success text-decoration-none" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-success rounded-pill px-4">Remove</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
 
         </div>
@@ -721,25 +850,79 @@
     }
 </div>
 
-<div class="bg-white border row p-4 mb-4">
+<div id="otherExperiences" class="bg-white border row p-4 mb-4">
     <div class="d-flex justify-content-between">
-        <p class="h4 mb-3">Other Experiences</p>
-        <button class="btn rounded-circle border mb-3"><i class="fas fa-plus text-secondary"></i></button>
+        <p class="h4">Other Experiences</p>
+        <button class="btn rounded-circle border mb-3" data-bs-toggle="modal" data-bs-target="#addOtherExperiencesModal"><i class="fas fa-plus text-secondary"></i></button>
     </div>
-    <hr>
-    <div class="d-flex justify-content-between">
-        <div class="d-flex flex-column">
-            <span class="h6">Freelance Writer</span>
-            <span>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aut quas repellendus fugiat dolores
-                necessitatibus a!
-            </span>
+    @foreach (var experience in Model.Profile.OtherExperiences)
+    {
+        <hr>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column">
+                <span class="h6">@experience.Subject</span>
+                <p>
+                    @experience.Description
+                </p>
+            </div>
+            <div>
+                <button class="btn rounded-circle border mb-2" data-bs-toggle="modal" data-bs-target="#editOtherExperienceModal-@experience.Id"><i class="fas fa-pen text-secondary"></i></button>
+                <button class="btn rounded-circle border mb-2" data-bs-toggle="modal" data-bs-target="#confirmDeleteOtherExperienceModal-@experience.Id"><i class="fas fa-trash-alt text-secondary"></i></button>
+            </div>
         </div>
-        <div>
-            <button class="btn rounded-circle border mb-2"><i class="fas fa-pen text-secondary"></i></button>
-            <button class="btn rounded-circle border mb-2"><i class="fas fa-trash-alt text-secondary"></i></button>
+
+        <!--Edit Other Experience Modal-->
+        <div class="modal fade" id="editOtherExperienceModal-@experience.Id" tabindex="-1"
+             aria-labelledby="editOtherExperienceModalLabel-@experience.Id" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content px-3 py-2">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editOtherExperienceModalLabel-@experience.Id">Edit other experiences</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form asp-action="EditOtherExperience">
+                        @Html.Hidden("Id", experience.Id)
+                        <div class="modal-body">
+                            <p class="small fw-bold">Subject</p>
+                            <input class="form-control mb-4" type="text" name="Subject" minlength="2" pattern=".*\S+.*" title="This field is required" value="@experience.Subject" required />
+
+                            <p class="small fw-bold">Description</p>
+                            <textarea class="form-control mb-5" type="text" rows="8" name="Description" required>@experience.Description</textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn text-success text-decoration-none"
+                                    data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-success rounded-pill px-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <!--Confirm Delete Modal-->
+        <div class="modal fade" id="confirmDeleteOtherExperienceModal-@experience.Id" tabindex="-1" aria-labelledby="confirmDeleteOtherExperienceModalLabel-@experience.Id" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content px-3 py-2">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteOtherExperienceModalLabel-@experience.Id">Remove other experiences</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form asp-action="DeleteOtherExperience">
+                        <div class="modal-body">
+                            @Html.Hidden("Id", experience.Id)
+                            <p>This action will remove "@experience.Subject" from all of your profiles. Are you sure to want to remove "@experience.Subject"?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn text-success text-decoration-none" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success rounded-pill px-4">Remove</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
 
@@ -757,7 +940,7 @@
                     @Html.Hidden("Id", Model.SpecializedProfile.Id)
                     <p class="small fw-bold">Your title</p>
                     <p>Enter a single sentence description of your professional skills/experience (e.g. Expert Web Designer with Ajax experience)</p>
-                    <input class="form-control mb-5" type="text" name="NewTitle" value="@Model.SpecializedProfile.Title" required />
+                    <input class="form-control mb-5" type="text" name="NewTitle" placeholder="EXAMPLE: Web Application Developer" value="@Model.SpecializedProfile.Title" required />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn text-success text-decoration-none" data-bs-dismiss="modal">Cancel</button>
@@ -885,7 +1068,7 @@
                         </div>
                         <div class="col-md-4">
                             <select name="Country" id="country" class="form-select rounded-pill" required>
-                                <option value="@Model.Profile.Country" selected disabled hidden>@Model.Profile.Country</option>
+                                <option value="@Model.Profile.Country" selected hidden>@Model.Profile.Country</option>
                                 <option value="Afganistan">Afghanistan</option>
                                 <option value="Albania">Albania</option>
                                 <option value="Algeria">Algeria</option>
@@ -1207,6 +1390,104 @@
 
                     <p class="small fw-bold">Description (Optional)</p>
                     <textarea class="form-control mb-5" type="text" name="Description" rows="5"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn text-success text-decoration-none"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addEducationModal" tabindex="-1" aria-labelledby="addEducationModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content px-3 py-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEducationModalLabel">Add Education</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="AddEducation">
+                @Html.Hidden("ProfileId", Model.Profile.Id)
+                <div class="modal-body">
+                    <p class="small fw-bold">School</p>
+                    <input class="form-control mb-4" type="text" placeholder="Ex. Northwestern University" name="School" required />
+
+                    <p class="small fw-bold">Dates Attended (Optional)</p>
+                    <div class="row mb-4">
+                        <div class="col-md-5">
+                            <select name="startYear" id="startYear" class="form-select rounded-pill">
+                                <option value="" disabled selected hidden>From</option>
+                                @for (int i = DateTime.Now.Year; i > 1940; i--)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <select name="endYear" id="endYear" class="form-select rounded-pill">
+                                <option value="" disabled selected hidden>To (or expected graduation year)</option>
+                                @for (int i = DateTime.Now.Year; i > 1940; i--)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <p class="small fw-bold">Degree (Optional)</p>
+                    <select name="Degree" id="Degree" class="form-select rounded-pill mb-4">
+                        <option value="" disabled selected hidden>Ex. Bachelor's</option>
+                        <option value="Associate's degree">Associate's degree</option>
+                        <option value="Bachelor's degree">Bachelor's degree</option>
+                        <option value="Master's degree">Master's degree</option>
+                        <option value="Engineer's degree">Engineer's degree</option>
+                        <option value="Foundation degree">Foundation degree</option>
+                        <option value="Licentiate degree">Licentiate degree</option>
+                        <option value="High School degree">High School degree</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <p class="small fw-bold">Area of Study (Optional)</p>
+                    <input class="form-control mb-4" type="text" placeholder="Ex. Computer Science" name="AreaOfStudy" />
+
+                    <p class="small fw-bold">Description (Optional)</p>
+                    <textarea class="form-control mb-5" type="text" rows="5" name="Description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn text-success text-decoration-none"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addOtherExperiencesModal" tabindex="-1"
+     aria-labelledby="addOtherExperiencesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content px-3 py-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addOtherExperiencesModalLabel">Add other experiences</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="AddOtherExperience">
+                @Html.Hidden("ProfileId", Model.Profile.Id)
+                <div class="modal-body">
+                    <p class="small fw-bold">Subject</p>
+                    <input class="form-control mb-4" type="text" name="Subject" minlength="2" required />
+
+                    <p class="small fw-bold">Description</p>
+                    <textarea class="form-control mb-5" type="text" rows="8" name="Description" required></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn text-success text-decoration-none"

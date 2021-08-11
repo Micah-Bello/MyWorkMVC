@@ -36,6 +36,8 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             var profile = await _context.Profiles
                 .Include(p => p.User)
                 .Include(p => p.EmploymentHistory)
+                .Include(p => p.OtherExperiences)
+                .Include(p => p.Education)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             if (profile is null)
@@ -131,11 +133,45 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
         {
             if (ModelState.IsValid)
             {
-                employment.StartDate = new DateTime(Convert.ToInt32(startYear), Convert.ToInt32(startMonth), 1);
-                employment.EndDate = new DateTime(Convert.ToInt32(endYear), Convert.ToInt32(endMonth), 1);
+                employment.StartDate = new DateTime(Int32.Parse(startYear), Int32.Parse(startMonth), 1);
+                employment.EndDate = new DateTime(Int32.Parse(endYear), Int32.Parse(endMonth), 1);
                 _context.Add(employment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), nameof(Profile), "employmentHistory");
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddOtherExperience([Bind("ProfileId,Subject,Description")] OtherExperience experience)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(experience);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index), nameof(Profile), "otherExperiences");
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEducation(
+            [Bind("ProfileId,School,Degree,AreaOfStudy,Description")] Education education,
+            string startYear,
+            string endYear)
+        {
+            if (ModelState.IsValid)
+            {
+                if (startYear is not null && endYear is not null)
+                {
+                    education.StartDate = new DateTime(Int32.Parse(startYear), 1, 1);
+                    education.EndDate = new DateTime(Int32.Parse(endYear), 1, 1);
+                }
+                _context.Add(education);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index), nameof(Profile), "education");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -167,8 +203,8 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                     newEmployment.City = employment.City;
                     newEmployment.Country = employment.Country;
                     newEmployment.IsPresent = employment.IsPresent;
-                    newEmployment.StartDate = new DateTime(Convert.ToInt32(startYear), Convert.ToInt32(startMonth), 1);
-                    newEmployment.EndDate = new DateTime(Convert.ToInt32(endYear), Convert.ToInt32(endMonth), 1);
+                    newEmployment.StartDate = new DateTime(Int32.Parse(startYear), Int32.Parse(startMonth), 1);
+                    newEmployment.EndDate = new DateTime(Int32.Parse(endYear), Int32.Parse(endMonth), 1);
 
                     await _context.SaveChangesAsync();
                 }
@@ -185,6 +221,79 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditOtherExperience([Bind("Id,Subject,Description")] OtherExperience experience)
+        {
+            if (ModelState.IsValid)
+            {
+                var newExperience = await _context.OtherExperiences
+                    .FirstOrDefaultAsync(o => o.Id == experience.Id);
+
+                if (newExperience is null)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    newExperience.Subject = experience.Subject;
+                    newExperience.Description = experience.Description;
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+
+                return RedirectToAction(nameof(Index), nameof(Profile), "otherExperiences");
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditEducation(
+            [Bind("Id,School,Degree,AreaOfStudy,Description")] Education education,
+            string startYear,
+            string endYear)
+        {
+            if (ModelState.IsValid)
+            {
+                var newEducation = await _context.Educations
+                    .FirstOrDefaultAsync(e => e.Id == education.Id);
+
+                if (newEducation is null)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    newEducation.School = education.School;
+                    newEducation.Degree = education.Degree;
+                    newEducation.AreaOfStudy = education.AreaOfStudy;
+                    newEducation.Description = education.Description;
+
+                    if (startYear is not null && endYear is not null)
+                    {
+                        newEducation.StartDate = new DateTime(Int32.Parse(startYear), 1, 1);
+                        newEducation.EndDate = new DateTime(Int32.Parse(endYear), 1, 1);
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                return RedirectToAction(nameof(Index), nameof(Profile), "education");
+            }
+            return NotFound();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteEmployment(int id)
         {
             var employment = await _context.EmploymentHistories.FindAsync(id);
@@ -197,6 +306,38 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             _context.EmploymentHistories.Remove(employment);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), nameof(Profile), "employmentHistory");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteOtherExperience(int id)
+        {
+            var experience = await _context.OtherExperiences.FindAsync(id);
+
+            if (experience is null)
+            {
+                return NotFound();
+            }
+
+            _context.OtherExperiences.Remove(experience);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), nameof(Profile), "otherExperiences");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteEducation(int id)
+        {
+            var education = await _context.Educations.FindAsync(id);
+
+            if (education is null)
+            {
+                return NotFound();
+            }
+
+            _context.Educations.Remove(education);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), nameof(Profile), "education");
         }
     }
 }
