@@ -17,7 +17,7 @@ namespace MyWorkMVC.Models
         public string Title { get; set; }
 
         [Required]
-        [StringLength(500, ErrorMessage = "The {0} must be at least {2} and no more than {1} characters long.", MinimumLength = 2)]
+        [StringLength(5000, ErrorMessage = "The {0} must be at least {2} and no more than {1} characters long.", MinimumLength = 2)]
         public string Description { get; set; }
 
         [Required]
@@ -25,6 +25,25 @@ namespace MyWorkMVC.Models
         public decimal HourlyRate { get; set; }
 
         public decimal AmountEarned { get; set; }
+
+        [NotMapped]
+        public string AmountEarnedFormatted
+        {
+            get 
+            {
+                if (AmountEarned > 10000)
+                {
+                    return $"${(((int)AmountEarned)/10000)*10}k+";
+                }
+                if (AmountEarned > 1000)
+                {
+                    return $"${(((int)AmountEarned)/1000)}k+";
+                }
+                return AmountEarned.ToString("C0"); 
+            }
+        }
+
+
         public int HoursWorked { get; set; }
         public int TotalJobs { get; set; }
 

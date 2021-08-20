@@ -10,7 +10,11 @@ namespace MyWorkMVC.Models
     {
         public int Id { get; set; }
         public int SpecializedProfileId { get; set; }
+        public int JobPostingId { get; set; }
 
-        public virtual Portfolio PortfolioItem { get; set; }
+        public virtual SpecializedProfile SpecializedProfile { get; set; }
+        public virtual Portfolio Portfolio { get; set; }
+        public virtual JobPosting JobPosting { get; set; }
+        public virtual ICollection<Milestone> Milestones { get; set; }
     }
 }

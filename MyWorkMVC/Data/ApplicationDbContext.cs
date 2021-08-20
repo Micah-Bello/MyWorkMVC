@@ -26,6 +26,11 @@ namespace MyWorkMVC.Data
         public DbSet<Availability> Availability { get; set; }
         public DbSet<OtherExperience> OtherExperiences { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Proposal> Proposals { get; set; }
+        public DbSet<JobPosting> JobPostings { get; set; }
+        public DbSet<Milestone> Milestones { get; set; }
+        public DbSet<ScreeningQuestion> ScreeningQuestions { get; set; }
+        public DbSet<ScreeningQuestionAnswer> ScreeningQuestionAnswers { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyWorkMVC.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +17,6 @@ namespace MyWorkMVC.Models
         public string LanguageName { get; set; }
 
         [Required]
-        public string Proficiency { get; set; }
+        public LanguageProficiency Proficiency { get; set; }
     }
 }
