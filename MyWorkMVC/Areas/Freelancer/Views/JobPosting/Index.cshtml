@@ -1,0 +1,237 @@
+﻿@model JobDetailsViewModel
+@{
+    ViewData["Title"] = "Job Details";
+}
+
+<h1 class="h3 m-4">Job details</h1>
+
+<div class="bg-white mt-4 mb-4 border row">
+    <div class="col-md-9 pt-4 ps-4 border-end">
+        <h4 class="mb-4">@Model.JobPosting.Title</h4>
+        <hr>
+        <a href="#" class="text-success h6 text-decoration-none">@Model.JobPosting.Category.CategoryName</a>
+        <p>Posted 1 hour ago</p>
+        <p><span><i class="fas fa-map-marker-alt fa-sm text-info me-1"></i>Worldwide</span></p>
+        <hr>
+        <p>
+            @Model.JobPosting.Description
+        </p>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="d-flex">
+                    <span><i class="far fa-clock fa-sm me-2"></i></span>
+                    <p>
+                        <span class="h6">Less than 30 hrs/wk</span><br>
+                        <span class="small">Hourly</span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex">
+                    <span><i class="far fa-calendar-alt fa-sm me-2"></i></span>
+                    <p>
+                        <span class="h6">Less than a month</span><br>
+                        <span class="small">Project Length</span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex">
+                    <span><i class="far fa-user fa-sm me-2"></i></span>
+                    <p class="me-2">
+                        <span class="h6">Expert</span><br>
+                        <span class="small">
+                            I am willing to pay higher rates for the most experienced
+                            freelancers
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex">
+                    <span><i class="fas fa-stopwatch fa-sm me-2"></i></span>
+                    <p>
+                        <span class="h6">@Model.JobPosting.LowerHourlyRateLimit.ToString("C")-@Model.JobPosting.HigherHourlyRateLimit.ToString("C")</span><br>
+                        <span class="small">Hourly</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p><span class="h6">Project Type:</span> One-time project</p>
+        <hr>
+        <div>
+            <p class="fs-5">Skills and Expertise</p>
+            <div class="row">
+                <div class="col-md-6 my-2">
+                    <p><span class="h6">@Model.JobPosting.Category.CategoryName Services</span></p>
+                    <div class="mb-3">
+                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
+                            Editing &
+                            Proofreading
+                        </button>
+                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
+                            Fact-Checking
+                        </button>
+                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
+                            Technical
+                            Writing
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6 my-2">
+                    <p><span class="h6">@Model.JobPosting.Category.CategoryName Deliverables</span></p>
+                    <div class="mb-3">
+                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
+                            Article
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6 my-2">
+                    <p><span class="h6">Other</span></p>
+                    <div class="mb-3">
+                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
+                            Editing &
+                            Proofreading
+                        </button>
+                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
+                            Fact-Checking
+                        </button>
+                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
+                            Technical
+                            Writing
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p class="fs-5">Preferred qualifications</p>
+                    <p>Rising Talent: Yes <i class="fas fa-exclamation-circle text-danger ms-1"></i></p>
+                </div>
+                <div class="col-md-6 d-flex flex-column">
+                    <p class="fs-5">Activity on this job</p>
+                    <span class="mb-2">
+                        Proposals: <span>
+                            <i class="fas fa-question-circle text-success"
+                               data-bs-toggle="tooltip"
+                               title="This range includes relevant proposals, but does not include proposals that are withdrawn, declined, or archived.
+                                                Please note that all proposals are accessible to clients on their applicants page."></i>
+                        </span>
+                        Less than 5
+                    </span>
+                    <span class="mb-2">Interviewing: 0</span>
+                    <span class="mb-2">Invites sent: 0</span>
+                    <span class="mb-2">Unanswered invites: 0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 g-0">
+        <div class="border-bottom">
+            <div class="mt-4 ms-4 me-4">
+                <a href="submit-proposal.html" class="btn btn-success rounded-pill w-100 my-2">Submit a Proposal</a>
+                <button class="btn btn-outline-success rounded-pill w-100 mt-2 mb-4">
+                    <i class="far fa-heart fa-sm me-2"></i>Save Job
+                </button>
+                <a href="#" class="text-success h6 text-decoration-none">
+                    <i class="fas fa-flag me-2"></i>Flag as inappropriate
+                </a>
+                <p class="mt-3">
+                    Required Connects to submit a proposal: 2
+                    <span>
+                        <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip"
+                           title="This is the number of Connects required to submit a proposal for this job."></i>
+                    </span>
+                </p>
+                <p>Available connects: 60</p>
+            </div>
+        </div>
+        <div class="border-bottom">
+            <div class="mt-4 ms-4 me-4">
+                <p class="h6">About the client</p>
+                <p class="mt-4">
+                    <i class="rounded-circle border-secondary bg-success text-white p-1 fas fa-check fa-xs me-1"></i>
+                    Payment method verified
+                </p>
+                <p>
+                    <span class="me-1">
+                        <i class="fas fa-star text-success"></i>
+                        <i class="fas fa-star text-success"></i>
+                        <i class="fas fa-star text-success"></i>
+                        <i class="fas fa-star text-success"></i>
+                        <i class="fas fa-star text-secondary"></i>
+                    </span> <span class="text-secondary">4.20 of 8 reviews</span>
+                </p>
+                <p>Canada<br><span class="text-secondary">Toronto 3:20 pm</span></p>
+                <p>15 jobs posted<br><span class="text-secondary">74% hire rate, 1 open job</span></p>
+                <p>$50k+ total spent<br><span class="text-secondary">11 hires, 1 active</span></p>
+                <p>8.32 /hr avg hourly rate paid<br><span class="text-secondary">6,275 hours</span></p>
+                <p class="small">Member since Jun 13, 2016</p>
+            </div>
+        </div>
+        <div class="m-4">
+            <p class="h6">Job link</p>
+            <p class="btn-sm btn-light text-dark small me-2">https://www.upwork.com/jobs</p>
+            <a href="#" class="text-success h6 text-decoration-none"></i>Copy link</a>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="bg-white border row p-4 mb-4">
+    <p class="h4 mb-3">Client's recent history (9)</p>
+    <hr>
+    <div class="d-flex justify-content-between">
+        <p class="fs-5">Jobs in progress</p>
+        <i class="fas fa-chevron-down mt-2 me-2 text-success"></i>
+    </div>
+    <hr>
+    <div>
+        <div class="row">
+            <div class="col-md-9">
+                <a href="#" class="text-success h5 text-decoration-none me-1">
+                    Editor for Neuroscience
+                    Blog
+                </a>
+                <p>
+                    <span class="me-1">
+                        <i class="fas fa-star text-success"></i>
+                        <i class="fas fa-star text-success"></i>
+                        <i class="fas fa-star text-success"></i>
+                        <i class="fas fa-star text-success"></i>
+                        <i class="fas fa-star text-secondary"></i>
+                    </span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut?
+                </p>
+            </div>
+            <div class="col-md-3 d-flex flex-column">
+                <span>Aug 2016 - Oct 2019</span>
+                <span>4821 hrs @@ $7.50/hr</span>
+                <span>Billed: $36,301.25</span>
+            </div>
+        </div>
+        <div class="mt-1">
+            <p>
+                To freelancer: <a href="#" class="text-success h6 text-decoration-none me-1">Hiren D.</a>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, consequatur quia?
+                Culpa, est! Est, beatae? Lorem ipsum dolor sit amet.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<div class="bg-white border row p-4 mb-5">
+    <p class="h4 mb-3">Other open jobs by this Client (1)</p>
+    <hr>
+    <span>
+        <a href="#" class="text-success h6 text-decoration-none me-1">
+            Editor for Neuroscience
+            Blog
+        </a>Hourly
+    </span>
+
+</div>

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyWorkMVC.ViewModels
 {
-    public class FeedViewModel
+    public class JobDetailsViewModel
     {
-        public List<JobPosting> Feed { get; set; }
+        public JobPosting JobPosting { get; set; }
     }
 }

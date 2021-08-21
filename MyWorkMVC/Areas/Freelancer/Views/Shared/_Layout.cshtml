@@ -18,7 +18,7 @@
 
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="index.html">mywork</a>
+            <a class="navbar-brand" asp-controller="Home">mywork</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -31,7 +31,7 @@
                             Find Work
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="index.html">Find Work</a></li>
+                            <li><a class="dropdown-item" asp-controller="Home">Find Work</a></li>
                             <li><a class="dropdown-item" href="saved-jobs.html">Saved Jobs</a></li>
                             <li><a class="dropdown-item" href="my-proposals.html">Proposals</a></li>
                             <li><a class="dropdown-item" asp-controller="Profile">Profile</a></li>
