@@ -132,7 +132,7 @@
     <div class="col-md-3 g-0">
         <div class="border-bottom">
             <div class="mt-4 ms-4 me-4">
-                <a href="submit-proposal.html" class="btn btn-success rounded-pill w-100 my-2">Submit a Proposal</a>
+                <a asp-controller="Proposal" asp-action="SubmitProposal" asp-route-id="@Model.JobPosting.Id" class="btn btn-success rounded-pill w-100 my-2">Submit a Proposal</a>
                 <button class="btn btn-outline-success rounded-pill w-100 mt-2 mb-4">
                     <i class="far fa-heart fa-sm me-2"></i>Save Job
                 </button>

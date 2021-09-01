@@ -17,15 +17,12 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
     public class ProfileController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly SeedDataService _seedDataService;
         private readonly UserManager<UserModel> _userManager;
 
         public ProfileController(ApplicationDbContext context,
-                                 SeedDataService seedDataService,
                                  UserManager<UserModel> userManager)
         {
             _context = context;
-            _seedDataService = seedDataService;
             _userManager = userManager;
         }
 

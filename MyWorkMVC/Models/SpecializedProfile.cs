@@ -11,6 +11,7 @@ namespace MyWorkMVC.Models
     {
         public int Id { get; set; }
         public int ProfileId { get; set; }
+        public int CategoryId { get; set; }
 
         [Required]
         [StringLength(75, ErrorMessage = "The {0} must be at least {2} and no more than {1} characters long.", MinimumLength = 2)]
@@ -50,6 +51,7 @@ namespace MyWorkMVC.Models
         public bool IsMainProfile { get; set; }
 
         public virtual Profile Profile { get; set; }
+        public virtual Category Specialty { get; set; }
         public virtual ICollection<Skill> Skills { get; set; }
         public virtual ICollection<Portfolio> PortfolioItems { get; set; }
         public virtual ICollection<Contract> WorkHistory { get; set; }
