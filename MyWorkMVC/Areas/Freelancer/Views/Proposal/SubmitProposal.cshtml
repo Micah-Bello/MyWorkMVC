@@ -151,7 +151,9 @@
                                 <div class="input-icons">
                                     <i class=" ms-2 fas fa-dollar-sign fa-lg icon text-secondary"></i>
                                     <label class="text-end input-field mt-2 pe-3 text-secondary"
-                                           id="serviceFeeLabel">@(Model.JobPosting.IsHourly ? (Model.JobPosting.HigherHourlyRateLimit - (Model.JobPosting.HigherHourlyRateLimit * 0.8m)).ToString("F") : (Model.JobPosting.Budget - (Model.JobPosting.Budget * 0.8m)).ToString("F"))</label>
+                                           id="serviceFeeLabel">@(Model.JobPosting.IsHourly ? 
+                                                (Model.JobPosting.HigherHourlyRateLimit - (Model.JobPosting.HigherHourlyRateLimit * 0.8m)).ToString("F") : 
+                                                (Model.JobPosting.Budget - (Model.JobPosting.Budget * 0.8m)).ToString("F"))</label>
                                 </div>
                             </div>
                             <div class="col-2 p-2">
@@ -212,18 +214,18 @@
                 Introduce yourself and explain why you’re a strong candidate for this job.
                 Feel free to suggest any changes to the job details or ask to schedule a video call.
             </p>
-            <textarea name="CoverLetter" minlength="2" required maxlength="5000" pattern=".*\S+.*" title="This field is required"
-                      class="form-control mb-3" placeholder="Add cover letter" rows="5"></textarea>
+            <textarea id="cover_letter" name="CoverLetter" minlength="2" required maxlength="5000" pattern=".*\S+.*" title="This field is required"
+                      class="form-control mb-2" placeholder="Add cover letter" rows="3"></textarea>
 
             @for (int i = 0; i < Model.JobPosting.ScreeningQuestions.Count; i++)
             {
-                <p class="h6">@Model.JobPosting.ScreeningQuestions.ElementAt(i).Question</p>
+                <p class="h6 mt-3">@Model.JobPosting.ScreeningQuestions.ElementAt(i).Question</p>
                 <textarea asp-for="@Model.Answers[i].Answer" minlength="2" required maxlength="500" pattern=".*\S+.*" title="This field is required"
-                          class="form-control mb-3" rows="5"></textarea>
+                          class="form-control" rows="5"></textarea>
                 <input type="hidden" asp-for="@Model.Answers[i].ScreeningQuestionId" value="@Model.JobPosting.ScreeningQuestions.ElementAt(i).Id" />
             }
 
-            <p class="h6">Attachments</p>
+            <p class="h6 mt-3">Attachments</p>
             <input class="form-control mb-3" type="file">
             <p>
                 You may attach up to 10 files under the size of <span class="h6">25MB</span> each.
@@ -240,3 +242,18 @@
     </div>
 </form>
 
+@section Scripts{ 
+    <script>
+        tinymce.init({
+            selector: 'textarea#cover_letter',
+            menubar: false,
+            toolbar: false,
+            branding: false,
+            setup: function (editor) {
+                editor.on('change', function () {
+                    tinymce.triggerSave();
+                });
+            }
+        });
+    </script>
+} 

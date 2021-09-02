@@ -38,7 +38,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
 
             if (proposal is not null)
             {
-                return RedirectToAction(nameof(ProposalDetails), new { id });
+                return RedirectToAction(nameof(ProposalDetails), new { id = proposal.Id });
             }
             var posting = await _context.JobPostings
                 .Include(p => p.Category)
@@ -90,16 +90,27 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(ProposalDetails));
+                return RedirectToAction(nameof(ProposalDetails), new { id = proposal.Id });
             }
             return NotFound();
         }
 
         public async Task<IActionResult> ProposalDetails(int id)
         {
+            var proposal = await _context.Proposals
+                .Include(p => p.JobPosting).ThenInclude(jp => jp.Skills)
+                .Include(p => p.JobPosting).ThenInclude(jp => jp.Category)
+                .Include(p => p.Milestones)
+                .Include(p => p.ScreeningQuestionAnswers).ThenInclude(qa => qa.Question)
+                .Include(p => p.SpecializedProfile).ThenInclude(sp => sp.Specialty)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
+            if (proposal is null)
+            {
+                return NotFound();
+            }
 
-            return View();
+            return View(proposal);
         }
     }
 }

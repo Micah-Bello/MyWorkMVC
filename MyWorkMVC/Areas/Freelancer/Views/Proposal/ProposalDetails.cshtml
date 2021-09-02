@@ -1,4 +1,4 @@
-﻿
+﻿@model Proposal 
 @{
     ViewData["Title"] = "Proposals";
 }
@@ -12,19 +12,17 @@
             <hr>
             <div class="row mb-3">
                 <div class="col-md-9 border-end">
-                    <p class="h5 mb-3">ASP.NET C# MVC Developer</p>
+                    <p class="h5 mb-3">@Model.JobPosting.Title</p>
                     <div class="d-flex mb-2">
                         <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                            Full Stack Development
+                            @Model.JobPosting.Category.CategoryName
                         </button>
-                        <span class="small ms-2">Posted Aug 17, 2021</span>
+                        <span class="small ms-2">Posted @Model.JobPosting.PostedDate.ToString("MMM dd, yyyy")</span>
                     </div>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus enim sed
-                        perferendis
-                        vitae modi repellat neque omnis voluptates ad cumque!
+                        @Model.JobPosting.Description
                     </p>
-                    <a href="job-details.html" class="text-success fw-bold small text-decoration-none me-1">
+                    <a asp-controller="JobPosting" asp-action="Index" asp-route-id="@Model.JobPosting.Id" class="text-success fw-bold small text-decoration-none me-1">
                         View job
                         posting
                     </a>
@@ -40,7 +38,7 @@
                     <div class="d-flex">
                         <span><i class="fas fa-stopwatch fa-sm me-2"></i></span>
                         <p>
-                            <span class="h6 small">$30.00-$55.00</span><br>
+                            <span class="h6 small">@Model.JobPosting.LowerHourlyRateLimit.ToString("C")-@Model.JobPosting.HigherHourlyRateLimit.ToString("C")</span><br>
                             <span class="small">Hourly Range</span>
                         </p>
                     </div>
@@ -63,42 +61,37 @@
             <hr>
             <p class="h5 mb-3">Skills and expertise</p>
             <div class="d-flex mb-5">
-                <button class="btn badge border rounded-pill bg-light text-secondary me-2">
-                    ASP.NET Core
-                </button>
-                <button class="btn badge border rounded-pill bg-light text-secondary me-2">
-                    API
-                </button>
+                @foreach (var skill in Model.JobPosting.Skills)
+                {
+                    <button class="btn badge border rounded-pill bg-light text-secondary me-2">
+                        @skill.SkillName
+                    </button>
+                }
             </div>
             <hr>
             <p class="h5 mb-3">Your proposed terms</p>
             <p class="h6">Profile</p>
             <a href="#" class="text-success h6 text-decoration-none me-1 mb-3">
-                Full Stack Development
+                @Model.SpecializedProfile.Specialty.CategoryName
             </a>
             <p class="h6">Hourly Rate</p>
-            <p>Total amount the client will see on your proposal <br>$35.00/hr</p>
+            <p>Total amount the client will see on your proposal <br>@Model.Bid.ToString("C")/hr</p>
             <p class="h6">You'll Receive</p>
-            <p>The estimated amount you'll receive after service fees <br>$28.00/hr</p>
+            <p>The estimated amount you'll receive after service fees <br>@((Model.Bid * 0.8m).ToString("C"))/hr</p>
         </div>
 
         <div class="bg-white border row p-4 mb-4">
             <p><span class="h4 mb-3 me-2">Cover letter</span></p>
             <hr>
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga labore vero cupiditate magnam
-                minus sint, sapiente facilis obcaecati explicabo, enim aspernatur exercitationem saepe
-                <br><br>
-                praesentium vel nisi minima quo placeat, magni animi sed pariatur voluptate impedit
-                laudantium! Natus maxime error, adipisci nobis quam enim tempora quibusdam facilis, officia,
-                cumque saepe veniam!
+                @Html.Raw(@Model.CoverLetter)
             </p>
 
-            <p class="h6 mb-1">Are you dolor sit amet consectetur adipisicing elit. Minus, eum?</p>
-            <p>Yes, ipsum dolor sit amet, consectetur adipisicing.</p>
-
-            <p class="h6 mb-1">Are you dolor sit amet consectetur adipisicing elit. Minus, eum?</p>
-            <p>Yes, ipsum dolor sit amet, consectetur adipisicing.</p>
+            @foreach (var answer in Model.ScreeningQuestionAnswers)
+            {
+                <p class="h6 mb-1">@answer.Question.Question</p>
+                <p>@answer.Answer</p>
+            }
         </div>
     </div>
     <div class="col-md-3">
