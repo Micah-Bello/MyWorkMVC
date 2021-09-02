@@ -3,36 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWorkMVC.Data;
 
 namespace MyWorkMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210902090541_Fix")]
+    partial class Fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("JobPostingSkill", b =>
-                {
-                    b.Property<int>("JobPostingsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SkillsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("JobPostingsId", "SkillsId");
-
-                    b.HasIndex("SkillsId");
-
-                    b.ToTable("JobPostingSkill");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -570,9 +557,6 @@ namespace MyWorkMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AvailableConnects")
-                        .HasColumnType("int");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -617,11 +601,8 @@ namespace MyWorkMVC.Migrations
                     b.Property<bool>("IsPaymentByMilestone")
                         .HasColumnType("bit");
 
-                    b.Property<int>("JobPostingId")
+                    b.Property<int>("JobPostId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("PostedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("SpecializedProfileId")
                         .HasColumnType("int");
@@ -634,7 +615,7 @@ namespace MyWorkMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JobPostingId");
+                    b.HasIndex("JobPostId");
 
                     b.HasIndex("SpecializedProfileId");
 
@@ -702,6 +683,9 @@ namespace MyWorkMVC.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("JobPostingId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SkillName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -710,6 +694,8 @@ namespace MyWorkMVC.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("JobPostingId");
 
                     b.ToTable("Skills");
                 });
@@ -873,21 +859,6 @@ namespace MyWorkMVC.Migrations
                     b.HasIndex("SkillsId");
 
                     b.ToTable("SkillSpecializedProfile");
-                });
-
-            modelBuilder.Entity("JobPostingSkill", b =>
-                {
-                    b.HasOne("MyWorkMVC.Models.JobPosting", null)
-                        .WithMany()
-                        .HasForeignKey("JobPostingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyWorkMVC.Models.Skill", null)
-                        .WithMany()
-                        .HasForeignKey("SkillsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1082,9 +1053,9 @@ namespace MyWorkMVC.Migrations
 
             modelBuilder.Entity("MyWorkMVC.Models.Proposal", b =>
                 {
-                    b.HasOne("MyWorkMVC.Models.JobPosting", "JobPosting")
+                    b.HasOne("MyWorkMVC.Models.JobPosting", "JobPost")
                         .WithMany("Proposals")
-                        .HasForeignKey("JobPostingId")
+                        .HasForeignKey("JobPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1098,7 +1069,7 @@ namespace MyWorkMVC.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("JobPosting");
+                    b.Navigation("JobPost");
 
                     b.Navigation("SpecializedProfile");
 
@@ -1138,6 +1109,10 @@ namespace MyWorkMVC.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("MyWorkMVC.Models.JobPosting", null)
+                        .WithMany("RequiredSkills")
+                        .HasForeignKey("JobPostingId");
                 });
 
             modelBuilder.Entity("MyWorkMVC.Models.SpecializedProfile", b =>
@@ -1210,6 +1185,8 @@ namespace MyWorkMVC.Migrations
                     b.Navigation("OtherLanguages");
 
                     b.Navigation("Proposals");
+
+                    b.Navigation("RequiredSkills");
 
                     b.Navigation("ScreeningQuestions");
                 });

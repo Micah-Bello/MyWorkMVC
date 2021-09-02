@@ -16,5 +16,6 @@ namespace MyWorkMVC.Models
         public string SkillName { get; set; }
 
         public virtual ICollection<SpecializedProfile> Profiles { get; set; }
+        public virtual ICollection<JobPosting> JobPostings { get; set; }
     }
 }

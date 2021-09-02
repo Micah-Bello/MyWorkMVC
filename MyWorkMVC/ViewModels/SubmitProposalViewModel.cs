@@ -10,5 +10,6 @@ namespace MyWorkMVC.ViewModels
     {
         public JobPosting JobPosting { get; set; }
         public Profile Profile { get; set; }
+        public List<ScreeningQuestionAnswer> Answers { get; set; }
     }
 }

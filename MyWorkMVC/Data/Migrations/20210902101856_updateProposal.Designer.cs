@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWorkMVC.Data;
 
 namespace MyWorkMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210902101856_updateProposal")]
+    partial class updateProposal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -619,9 +621,6 @@ namespace MyWorkMVC.Migrations
 
                     b.Property<int>("JobPostingId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("PostedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("SpecializedProfileId")
                         .HasColumnType("int");

@@ -23,6 +23,8 @@ namespace MyWorkMVC.Models
 
         public int JobSuccessScore { get; set; }
 
+        public int AvailableConnects { get; set; }
+
         public bool IsTopRated { get; set; }
 
         public virtual Availability Availability { get; set; }

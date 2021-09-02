@@ -60,7 +60,7 @@ namespace MyWorkMVC.Models
         public virtual Category Category { get; set; }
         public virtual ICollection<Proposal> Proposals { get; set; }
         public virtual ICollection<Contract> Contracts { get; set; }
-        public virtual ICollection<Skill> RequiredSkills { get; set; }
+        public virtual ICollection<Skill> Skills { get; set; }
         public virtual ICollection<ScreeningQuestion> ScreeningQuestions { get; set; }
         public virtual ICollection<Language> OtherLanguages { get; set; }
     }

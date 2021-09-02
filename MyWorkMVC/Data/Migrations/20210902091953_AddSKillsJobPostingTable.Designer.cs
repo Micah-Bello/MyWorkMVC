@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWorkMVC.Data;
 
 namespace MyWorkMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210902091953_AddSKillsJobPostingTable")]
+    partial class AddSKillsJobPostingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -570,9 +572,6 @@ namespace MyWorkMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AvailableConnects")
-                        .HasColumnType("int");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -617,11 +616,8 @@ namespace MyWorkMVC.Migrations
                     b.Property<bool>("IsPaymentByMilestone")
                         .HasColumnType("bit");
 
-                    b.Property<int>("JobPostingId")
+                    b.Property<int>("JobPostId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("PostedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("SpecializedProfileId")
                         .HasColumnType("int");
@@ -634,7 +630,7 @@ namespace MyWorkMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JobPostingId");
+                    b.HasIndex("JobPostId");
 
                     b.HasIndex("SpecializedProfileId");
 
@@ -1082,9 +1078,9 @@ namespace MyWorkMVC.Migrations
 
             modelBuilder.Entity("MyWorkMVC.Models.Proposal", b =>
                 {
-                    b.HasOne("MyWorkMVC.Models.JobPosting", "JobPosting")
+                    b.HasOne("MyWorkMVC.Models.JobPosting", "JobPost")
                         .WithMany("Proposals")
-                        .HasForeignKey("JobPostingId")
+                        .HasForeignKey("JobPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1098,7 +1094,7 @@ namespace MyWorkMVC.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("JobPosting");
+                    b.Navigation("JobPost");
 
                     b.Navigation("SpecializedProfile");
 

@@ -11,7 +11,7 @@ namespace MyWorkMVC.Models
     public class Proposal
     {
         public int Id { get; set; }
-        public int JobPostId { get; set; }
+        public int JobPostingId { get; set; }
 
         [ForeignKey("UserModel")]
         public string UserId { get; set; }
@@ -26,8 +26,9 @@ namespace MyWorkMVC.Models
         public ProposalStatus Status { get; set; }
 
         public bool IsPaymentByMilestone { get; set; }
+        public DateTime PostedDate { get; set; }
 
-        public virtual JobPosting JobPost { get; set; }
+        public virtual JobPosting JobPosting { get; set; }
         public virtual UserModel User { get; set; }
         public virtual SpecializedProfile SpecializedProfile { get; set; }
 
