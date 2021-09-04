@@ -66,6 +66,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
 
             var profile = await _context.Profiles
                 .Include(p => p.SpecializedProfiles)
+                    .ThenInclude(sp => sp.Specialty)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             if (profile is null)
