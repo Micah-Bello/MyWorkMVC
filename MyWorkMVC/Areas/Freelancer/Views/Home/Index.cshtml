@@ -90,7 +90,8 @@
                     <div>
                         <p class="small text-secondary">
                             <span class="fw-bolder">@(posting.IsHourly ? $"Hourly: { posting.LowerHourlyRateLimit.ToString("C") }-{ posting.HigherHourlyRateLimit.ToString("C") }" : "Fixed-price")</span> -
-                            Intermediate @(posting.IsHourly ? "" : $" - Est. Budget: { posting.Budget.ToString("C0") }") 
+                            @posting.ExperienceLevel.AsString(EnumFormat.Description)
+                            @(posting.IsHourly ? "" : $" - Est. Budget: { posting.Budget.ToString("C0") }") 
                             @(posting.IsHourly ? $" - Est. Time: { posting.Duration.AsString(EnumFormat.Description) }, { posting.RequiredHours.AsString(EnumFormat.Description) }" : "")
                             - Posted @posting.PostedDate.DateDifference()
                         </p>

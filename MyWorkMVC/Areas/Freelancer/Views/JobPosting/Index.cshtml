@@ -11,7 +11,7 @@
         <hr>
         <a href="#" class="text-success h6 text-decoration-none">@Model.JobPosting.Category.CategoryName</a>
         <p>Posted @Model.JobPosting.PostedDate.DateDifference()</p>
-        <p><span><i class="fas fa-map-marker-alt fa-sm text-info me-1"></i>Worldwide</span></p>
+        <p><span><i class="fas fa-map-marker-alt fa-sm text-info me-1"></i>@Model.JobPosting.Location</span></p>
         <hr>
         <p>
             @Model.JobPosting.Description
@@ -59,8 +59,9 @@
                     <p class="me-2">
                         <span class="h6">@Model.JobPosting.ExperienceLevel.AsString(EnumFormat.Description)</span><br>
                         <span class="small">
-                            I am willing to pay higher rates for the most experienced
-                            freelancers
+                            @(Model.JobPosting.ExperienceLevel == ExperienceLevel.Entry ? "I am looking for freelancers with the lowest rates" : 
+                                Model.JobPosting.ExperienceLevel == ExperienceLevel.Intermediate ? "I am looking for a mix of experience and value" :
+                                "I am willing to pay higher rates for the most experienced freelancers")
                         </span>
                     </p>
                 </div>
