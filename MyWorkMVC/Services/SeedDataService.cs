@@ -37,8 +37,9 @@ namespace MyWorkMVC.Services
             await SeedRolesAsync();
 
             await SeedUsersAsync();
-        }
 
+            await SeedOtherData();
+        }
 
         private async Task SeedRolesAsync()
         {
@@ -109,6 +110,158 @@ namespace MyWorkMVC.Services
             await _userManager.AddToRoleAsync(demoClient, AvailableRoles.DemoClient.ToString());
             await _userManager.AddToRoleAsync(freelancer, AvailableRoles.Freelancer.ToString());
             await _userManager.AddToRoleAsync(demoFreelancer, AvailableRoles.DemoFreelancer.ToString());
+        }
+
+
+        private async Task SeedOtherData()
+        {
+            if (_context.Profiles.Any())
+            {
+                return;
+            }
+
+            var demoFreelancer = await _context.Users.FirstOrDefaultAsync(u => u.Email == "demofreelancer@mailinator.com");
+            var demoClient = await _context.Users.FirstOrDefaultAsync(u => u.Email == "democlient@mailinator.com");
+
+
+            var demoFreelancerProfile = new Profile() 
+            {
+                UserId = demoFreelancer.Id,
+                City = "Liverpool",
+                Country = "United Kingdom",
+                JobSuccessScore = 100,
+                IsTopRated = true,
+                AvailableConnects = 44
+            };
+
+            await _context.AddAsync(demoFreelancerProfile);
+            await _context.SaveChangesAsync();
+
+            var categories = new List<Category>()
+            {
+                new Category()
+                {
+                    CategoryName = "Full Stack Development"
+                },
+                new Category()
+                {
+                    CategoryName = "Front End Development"
+                }
+            };
+
+            await _context.AddRangeAsync(categories);
+            await _context.SaveChangesAsync();
+
+            var specializedProfile = new SpecializedProfile()
+            {
+                ProfileId = demoFreelancerProfile.Id,
+                Title = "Full Stack ASP.NET Developer",
+                Description = "I've got experience with full-stack web development",
+                HourlyRate = 20m,
+                AmountEarned = 1500m,
+                HoursWorked = 80,
+                TotalJobs = 5,
+                IsMainProfile = true,
+                CategoryId = categories.First().Id
+            };
+
+            await _context.AddAsync(specializedProfile);
+            await _context.SaveChangesAsync();
+
+            var language = new Language()
+            {
+                ProfileId = demoFreelancerProfile.Id,
+                LanguageName = "English",
+                Proficiency = LanguageProficiency.Fluent
+            };
+
+            await _context.AddAsync(language);
+            await _context.SaveChangesAsync();
+
+            var skills = new List<Skill>()
+            {
+                new Skill()
+                {
+                    CategoryId = categories.First().Id,
+                    SkillName = "ASP.NET Core"
+                },
+                new Skill()
+                {
+                    CategoryId = categories.Last().Id,
+                    SkillName = "HTML"
+                },
+                new Skill()
+                {
+                    CategoryId = categories.First().Id,
+                    SkillName = "Entity Framework"
+                },
+            };
+
+            await _context.AddAsync(skills);
+            await _context.SaveChangesAsync();
+
+            var jobPostings = new List<JobPosting>() 
+            { 
+                new JobPosting()
+                {
+                    UserId = demoClient.Id,
+                    CategoryId = categories.First().Id,
+                    Title = "Looking for skilled ASP.NET MVC developers",
+                    Description = "I need three web developers with experience building web apps with ASP.NET MVC and Entity Framework",
+                    PostedDate = DateTime.UtcNow,
+                    RenewedDate = DateTime.UtcNow,
+                    LastViewedByClient = DateTime.UtcNow,
+                    IsHourly = true,
+                    LowerHourlyRateLimit = 10,
+                    HigherHourlyRateLimit = 25,
+                    Budget = 0,
+                    RequiredHours = RequiredHours.MoreThan30HoursPerWeek,
+                    Scope = Scope.Medium,
+                    Duration = Duration.OneToThreeMonths,
+                    ExperienceLevel = ExperienceLevel.Intermediate,
+                    TalentType = TalentType.Independent,
+                    TalentAmount = TalentAmount.One,
+                    HireDate = HireDate.OneToThreeDays,
+                    JobSuccessScore = JobSuccessScore.Any,
+                    Status = JobPostingStatus.Published,
+                    Visibility = JobPostingVisibility.Any,
+                    Location = "United Kingdom",
+                    MainLanguage = language,
+                    ConnectsRequired = 2,
+                    Skills = skills
+                },
+                new JobPosting()
+                {
+                    UserId = demoClient.Id,
+                    CategoryId = categories.Last().Id,
+                    Title = "Full time Senior ASP.NET Developer",
+                    Description = "I need an experienced ASP.NET developer with decent front-end skills and good grasp of SignalR",
+                    PostedDate = DateTime.UtcNow,
+                    RenewedDate = DateTime.UtcNow,
+                    LastViewedByClient = DateTime.UtcNow,
+                    IsHourly = false,
+                    LowerHourlyRateLimit = 10,
+                    HigherHourlyRateLimit = 25,
+                    Budget = 1500,
+                    RequiredHours = RequiredHours.LessThan30HoursPerWeek,
+                    Scope = Scope.Large,
+                    Duration = Duration.ThreeToSixMonths,
+                    ExperienceLevel = ExperienceLevel.Expert,
+                    TalentType = TalentType.Independent,
+                    TalentAmount = TalentAmount.One,
+                    HireDate = HireDate.OneToThreeDays,
+                    JobSuccessScore = JobSuccessScore.Any,
+                    Status = JobPostingStatus.Published,
+                    Visibility = JobPostingVisibility.Any,
+                    Location = "India",
+                    MainLanguage = language,
+                    ConnectsRequired = 4,
+                    Skills = skills
+                },
+            };
+
+            await _context.AddRangeAsync(jobPostings);
+            await _context.SaveChangesAsync();
         }
 
     }

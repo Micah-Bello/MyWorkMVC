@@ -9,5 +9,7 @@ namespace MyWorkMVC.ViewModels
     public class JobDetailsViewModel
     {
         public JobPosting JobPosting { get; set; }
+        public List<JobPosting> OtherJobs { get; set; }
+        public Profile Profile { get; set; }
     }
 }

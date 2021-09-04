@@ -162,13 +162,13 @@
                     <i class="fas fa-flag me-2"></i>Flag as inappropriate
                 </a>
                 <p class="mt-3">
-                    Required Connects to submit a proposal: 2
+                    Required Connects to submit a proposal: @Model.JobPosting.ConnectsRequired
                     <span>
                         <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip"
                            title="This is the number of Connects required to submit a proposal for this job."></i>
                     </span>
                 </p>
-                <p>Available connects: 60</p>
+                <p>Available connects: @Model.Profile.AvailableConnects</p>
             </div>
         </div>
         <div class="border-bottom">
@@ -247,13 +247,14 @@
 </div>
 
 <div class="bg-white border row p-4 mb-5">
-    <p class="h4 mb-3">Other open jobs by this Client (1)</p>
+    <p class="h4 mb-3">Other open jobs by this Client (@Model.OtherJobs.Count())</p>
     <hr>
-    <span>
-        <a href="#" class="text-success h6 text-decoration-none me-1">
-            Editor for Neuroscience
-            Blog
-        </a>Hourly
-    </span>
-
+    @foreach (var posting in Model.OtherJobs)
+    {
+        <span>
+            <a asp-action="Index" asp-route-id="@posting.Id" class="text-success h6 text-decoration-none me-1">
+                @posting.Title
+            </a>@(posting.IsHourly ? "Hourly" : "Fixed-price")
+        </span>
+    }
 </div>
