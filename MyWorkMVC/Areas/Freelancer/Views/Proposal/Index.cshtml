@@ -1,0 +1,243 @@
+﻿@model ProposalsViewModel
+@{
+    ViewData["Title"] = "My Proposals";
+}
+
+<h1 class="h3 m-4">
+    My proposals
+</h1>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-success active" id="active-tab" data-bs-toggle="tab"
+                data-bs-target="#active" type="button" role="tab" aria-controls="active"
+                aria-selected="true">
+            Active
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-success" id="referrals-tab" data-bs-toggle="tab"
+                data-bs-target="#referrals" type="button" role="tab" aria-controls="referrals"
+                aria-selected="false">
+            Referrals
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-success" id="archived-tab" data-bs-toggle="tab"
+                data-bs-target="#archived" type="button" role="tab" aria-controls="archived"
+                aria-selected="false">
+            Archived
+        </button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active-tab">
+        <div class="bg-white border row p-4 mb-4">
+            <p>
+                <span class="h4 mb-3 me-2">Offers (2)</span><span>
+                    <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip"
+                       title="These are offers sent from clients."></i>
+                </span>
+            </p>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="text-success h6 text-decoration-none me-1">
+                        Lorem ipsum, dolor sit
+                        amet consectetur adipisicing elit. Veritatis,
+                        Blog
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <p class="small">Full Stack Development</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="text-success h6 text-decoration-none me-1">
+                        Lorem ipsum, dolor sit
+                        amet consectetur adipisicing elit. Veritatis,
+                        Blog
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <p class="small">Full Stack Development</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white border row p-4 mb-4">
+            <p>
+                <span class="h4 mb-3 me-2">Invitations to interview (2)</span><span>
+                    <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip"
+                       title="Clients may contact you first about a job posting. If you don't want these inquiries, you can set your profile to private."></i>
+                </span>
+            </p>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="text-success h6 text-decoration-none me-1">
+                        Lorem ipsum, dolor sit
+                        amet consectetur adipisicing elit. Veritatis,
+                        Blog
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <p class="small">Full Stack Development</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="text-success h6 text-decoration-none me-1">
+                        Lorem ipsum, dolor sit
+                        amet consectetur adipisicing elit. Veritatis,
+                        Blog
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <p class="small">Full Stack Development</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white border row p-4 mb-4">
+            <p>
+                <span class="h4 mb-3 me-2">Submitted proposals (@Model.SubmittedProposals.Count)</span><span>
+                    <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip"
+                       title="These are proposals you sent which have not yet received a reply."></i>
+                </span>
+            </p>
+            <hr>
+            @foreach (var proposal in Model.SubmittedProposals)
+            {
+                <div class="row">
+                    <div class="col-md-3">
+                        <p>Initiated @proposal.PostedDate.ToString("MMM dd, yyyy")<br><span class="small">@proposal.PostedDate.DateDifference()</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-action="ProposalDetails" asp-route-id="@proposal.Id" class="text-success h6 text-decoration-none me-1">
+                            @proposal.JobPosting.Title
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="small">@proposal.SpecializedProfile.Specialty.CategoryName</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="tab-pane fade" id="referrals" role="tabpanel" aria-labelledby="referrals-tab">
+        <div class="bg-white border p-4 mb-4 d-flex flex-column align-items-center">
+            <p class="h6">You haven’t referred anyone yet</p>
+            <span class="text-center">
+                When declining an invitation, you can make a referral to help
+                other <br>
+                freelancers succeed and help clients fill their job
+            </span>
+            <span>
+                <a href="#" class="text-success h6 text-decoration-none me-1">
+                    Learn more about
+                    referring freelancers
+                </a>
+            </span>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="archived" role="tabpanel" aria-labelledby="archived-tab">
+        <div class="bg-white border row p-4 mb-4">
+            <p>
+                <span class="h4 mb-3 me-2">Archived proposals (2)</span><span>
+                    <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip" title="
+                                This screen displays all of your archived proposals. It includes the date communication began with the client and the reason the proposal was archived."></i>
+                </span>
+            </p>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Initiated Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                </div>
+                <div class="col-md-4">
+                    <a href="#" class="text-success h6 text-decoration-none me-1">
+                        Lorem ipsum, dolor sit
+                        amet consectetur adipisicing elit. Veritatis,
+                        Blog
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <p class="small">Declined by You</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="small">Full Stack Development</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Initiated Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                </div>
+                <div class="col-md-4">
+                    <a href="#" class="text-success h6 text-decoration-none me-1">
+                        Lorem ipsum, dolor sit
+                        amet consectetur adipisicing elit. Veritatis,
+                        Blog
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <p class="small">Declined by You</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="small">Full Stack Development</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white border row p-4 mb-4">
+            <p>
+                <span class="h4 mb-3 me-2">Archived interviews (2)</span><span>
+                    <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip"
+                       title="These are interview invitations which have been archived."></i>
+                </span>
+            </p>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="text-success h6 text-decoration-none me-1">
+                        Lorem ipsum, dolor sit
+                        amet consectetur adipisicing elit. Veritatis,
+                        Blog
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <p class="small">Declined by You</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="text-success h6 text-decoration-none me-1">
+                        Lorem ipsum, dolor sit
+                        amet consectetur adipisicing elit. Veritatis,
+                        Blog
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <p class="small">Job is Closed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

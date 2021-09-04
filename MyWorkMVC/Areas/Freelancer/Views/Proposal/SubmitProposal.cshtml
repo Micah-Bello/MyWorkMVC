@@ -56,31 +56,45 @@
                 <div class="d-flex">
                     <span><i class="fas fa-user fa-sm me-2"></i></span>
                     <p class="me-2">
-                        <span class="h6 small">Expert</span><br>
+                        <span class="h6 small">@Model.JobPosting.ExperienceLevel.AsString(EnumFormat.Description)</span><br>
                         <span class="small">Experience level</span>
                     </p>
                 </div>
-                <div class="d-flex">
-                    <span><i class="fas fa-stopwatch fa-sm me-2"></i></span>
-                    <p>
-                        <span class="h6 small">@Model.JobPosting.LowerHourlyRateLimit.ToString("C")-@Model.JobPosting.HigherHourlyRateLimit.ToString("C")</span><br>
-                        <span class="small">Hourly Range</span>
-                    </p>
-                </div>
-                <div class="d-flex">
-                    <span><i class="far fa-clock fa-sm me-2"></i></span>
-                    <p>
-                        <span class="h6 small">Less than 30 hrs/wk</span><br>
-                        <span class="small">Hourly</span>
-                    </p>
-                </div>
-                <div class="d-flex">
-                    <span><i class="far fa-calendar-alt fa-sm me-2"></i></span>
-                    <p>
-                        <span class="h6 small">Less than a month</span><br>
-                        <span class="small">Project Length</span>
-                    </p>
-                </div>
+                @if (Model.JobPosting.IsHourly)
+                {
+                    <div class="d-flex">
+                        <span><i class="fas fa-stopwatch fa-sm me-2"></i></span>
+                        <p>
+                            <span class="h6 small">@Model.JobPosting.LowerHourlyRateLimit.ToString("C")-@Model.JobPosting.HigherHourlyRateLimit.ToString("C")</span><br>
+                            <span class="small">Hourly Range</span>
+                        </p>
+                    </div>
+                    <div class="d-flex">
+                        <span><i class="far fa-clock fa-sm me-2"></i></span>
+                        <p>
+                            <span class="h6 small">@Model.JobPosting.RequiredHours.AsString(EnumFormat.Description)</span><br>
+                            <span class="small">Hourly</span>
+                        </p>
+                    </div>
+                    <div class="d-flex">
+                        <span><i class="far fa-calendar-alt fa-sm me-2"></i></span>
+                        <p>
+                            <span class="h6 small">@Model.JobPosting.Duration.AsString(EnumFormat.Description)</span><br>
+                            <span class="small">Project Length</span>
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex">
+                        <span><i class="fas fa-tag fa-sm me-2"></i></span>
+                        <p>
+                            <span class="h6 small">@Model.JobPosting.Budget.ToString("C")</span><br>
+                            <span class="small">Fixed-price</span>
+                        </p>
+                    </div>
+                }
+
             </div>
         </div>
         <hr>
@@ -104,9 +118,9 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="d-flex justify-content-between">
-                    <p>Your profile rate: <span class="h6">$35.00/hr</span></p>
+                    <p>Your profile rate: <span class="h6">@Model.Profile.SpecializedProfiles.FirstOrDefault(sp => sp.IsMainProfile).HourlyRate.ToString("C")/hr</span></p>
                     <p>
-                        Client's budget: $20.00-$25.00/hr
+                        Client's budget: @Model.JobPosting.LowerHourlyRateLimit.ToString("C")-@Model.JobPosting.HigherHourlyRateLimit.ToString("C")/hr
                         <span class="ms-2">
                             <i class="fas fa-question-circle fa-sm text-success"
                                data-bs-toggle="tooltip"
@@ -237,7 +251,7 @@
         <hr>
         <div class="d-flex pt-2">
             <button type="submit" class="btn btn-success rounded-pill px-4 mb-auto">Submit a Proposal</button>
-            <button class="btn text-success px-4 mb-auto">Cancel</button>
+            <a asp-controller="JobPosting" asp-action="Index" asp-route-id="@Model.JobPosting.Id" class="btn text-success px-4 mb-auto">Cancel</a>
         </div>
     </div>
 </form>

@@ -89,30 +89,30 @@
                     </div>
                     <div>
                         <p class="small text-secondary">
-                            <span class="fw-bolder">Fixed-price</span> -
-                            Intermediate - Est. Budget: @posting.Budget.ToString("C0") - Posted 43 minutes ago
+                            <span class="fw-bolder">@(posting.IsHourly ? $"Hourly: { posting.LowerHourlyRateLimit.ToString("C") }-{ posting.HigherHourlyRateLimit.ToString("C") }" : "Fixed-price")</span> -
+                            Intermediate @(posting.IsHourly ? "" : $" - Est. Budget: { posting.Budget.ToString("C0") }") 
+                            @(posting.IsHourly ? $" - Est. Time: { posting.Duration.AsString(EnumFormat.Description) }, { posting.RequiredHours.AsString(EnumFormat.Description) }" : "")
+                            - Posted @posting.PostedDate.DateDifference()
                         </p>
                         <p>
                             @posting.Description
                         </p>
                     </div>
                     <div class="mb-1">
-                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                            ASP.NET
-                            Core
-                        </button>
-                        <button class="btn badge border rounded-pill bg-light text-secondary mx-1">
-                            Microsoft SQL
-                            Server
-                        </button>
-                        <button class="btn badge border rounded-pill bg-light text-secondary mx-1">
-                            Microsoft
-                            Azure
-                        </button>
+                        @foreach (var skill in posting.Skills)
+                        {
+                            <button class="btn badge border rounded-pill bg-light text-secondary me-2">
+                                @skill.SkillName
+                            </button>
+                        }
                     </div>
                     <div>
                         <p class="small text-secondary">
-                            Proposals: <span class="fw-bolder">Less than 5</span>
+                            Proposals: <span class="fw-bolder">
+                                @(posting.Proposals.Count < 5 ? "Less than 5" :
+                                    posting.Proposals.Count > 5 && posting.Proposals.Count < 10 ? "5 to 10" :
+                                    posting.Proposals.Count > 15 && posting.Proposals.Count < 20 ? "15 to 20" : "20 to 50")
+                            </span>
                         </p>
                         <p class="small text-secondary">
                             <i class="rounded-circle border border-2 border-secondary p-1 fas fa-check fa-xs me-1"></i>
@@ -125,7 +125,7 @@
                                 <i class="fas fa-star fa-xs text-secondary"></i>
                             </span>
                             <span class="fw-bolder me-2">$0 spent</span>
-                            <span class="fw-bolder"><i class="fas fa-map-marker-alt me-1"></i>India</span>
+                            <span class="fw-bolder"><i class="fas fa-map-marker-alt me-1"></i>@posting.Location</span>
                         </p>
                     </div>
                 </div>
@@ -164,8 +164,8 @@
         </div>
         <div class="my-3 d-flex flex-column">
             <p class="fw-bold my-2">Proposals</p>
-            <a href="#" class="text-success text-decoration-none">2 submitted proposals</a>
-            <a href="#" class="text-success text-decoration-none">60 available connects</a>
+            <a asp-controller="Proposal" asp-action="Index" class="text-success text-decoration-none">@Model.SubmittedProposalsCount submitted proposals</a>
+            <a href="#" class="text-success text-decoration-none">@Model.Profile.AvailableConnects available connects</a>
         </div>
     </div>
 </div>

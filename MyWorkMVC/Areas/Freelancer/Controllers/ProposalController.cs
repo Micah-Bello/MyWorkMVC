@@ -25,9 +25,22 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var submittedProposals = await _context.Proposals
+                .Include(p => p.JobPosting)
+                .Include(p => p.SpecializedProfile)
+                    .ThenInclude(sp => sp.Specialty)
+                .Where(p => p.UserId == currentUser.Id && p.Status == ProposalStatus.Submitted).ToListAsync();
+
+            var vm = new ProposalsViewModel()
+            {
+                SubmittedProposals = submittedProposals
+            };
+
+            return View(vm);
         }
 
         public async Task<IActionResult> SubmitProposal(int id)

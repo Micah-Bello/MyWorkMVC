@@ -10,7 +10,7 @@
         <h4 class="mb-4">@Model.JobPosting.Title</h4>
         <hr>
         <a href="#" class="text-success h6 text-decoration-none">@Model.JobPosting.Category.CategoryName</a>
-        <p>Posted 1 hour ago</p>
+        <p>Posted @Model.JobPosting.PostedDate.DateDifference()</p>
         <p><span><i class="fas fa-map-marker-alt fa-sm text-info me-1"></i>Worldwide</span></p>
         <hr>
         <p>
@@ -18,29 +18,46 @@
         </p>
         <hr>
         <div class="row">
-            <div class="col-md-4">
-                <div class="d-flex">
-                    <span><i class="far fa-clock fa-sm me-2"></i></span>
-                    <p>
-                        <span class="h6">Less than 30 hrs/wk</span><br>
-                        <span class="small">Hourly</span>
-                    </p>
+            @if (Model.JobPosting.IsHourly)
+            {
+                <div class="col-md-4">
+                    <div class="d-flex">
+                        <span><i class="far fa-clock fa-sm me-2"></i></span>
+                        <p>
+                            <span class="h6">@Model.JobPosting.RequiredHours.AsString(EnumFormat.Description)</span><br>
+                            <span class="small">Hourly</span>
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="d-flex">
-                    <span><i class="far fa-calendar-alt fa-sm me-2"></i></span>
-                    <p>
-                        <span class="h6">Less than a month</span><br>
-                        <span class="small">Project Length</span>
-                    </p>
+                <div class="col-md-4">
+                    <div class="d-flex">
+                        <span><i class="far fa-calendar-alt fa-sm me-2"></i></span>
+                        <p>
+                            <span class="h6">@Model.JobPosting.Duration.AsString(EnumFormat.Description)</span><br>
+                            <span class="small">Project Length</span>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            }
+
+            @if (!Model.JobPosting.IsHourly)
+            {
+                <div class="col-md-4">
+                    <div class="d-flex">
+                        <span><i class="fas fa-tag fa-sm me-2"></i></span>
+                        <p>
+                            <span class="h6">@Model.JobPosting.Budget.ToString("C")</span><br>
+                            <span class="small">Fixed-price</span>
+                        </p>
+                    </div>
+                </div>
+            }
+
             <div class="col-md-4">
                 <div class="d-flex">
                     <span><i class="far fa-user fa-sm me-2"></i></span>
                     <p class="me-2">
-                        <span class="h6">Expert</span><br>
+                        <span class="h6">@Model.JobPosting.ExperienceLevel.AsString(EnumFormat.Description)</span><br>
                         <span class="small">
                             I am willing to pay higher rates for the most experienced
                             freelancers
@@ -48,15 +65,19 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="d-flex">
-                    <span><i class="fas fa-stopwatch fa-sm me-2"></i></span>
-                    <p>
-                        <span class="h6">@Model.JobPosting.LowerHourlyRateLimit.ToString("C")-@Model.JobPosting.HigherHourlyRateLimit.ToString("C")</span><br>
-                        <span class="small">Hourly</span>
-                    </p>
+
+            @if (Model.JobPosting.IsHourly)
+            {
+                <div class="col-md-4">
+                    <div class="d-flex">
+                        <span><i class="fas fa-stopwatch fa-sm me-2"></i></span>
+                        <p>
+                            <span class="h6">@Model.JobPosting.LowerHourlyRateLimit.ToString("C")-@Model.JobPosting.HigherHourlyRateLimit.ToString("C")</span><br>
+                            <span class="small">Hourly</span>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
         <hr>
         <p><span class="h6">Project Type:</span> One-time project</p>
@@ -175,7 +196,7 @@
         <div class="m-4">
             <p class="h6">Job link</p>
             <p class="btn-sm btn-light text-dark small me-2">https://www.upwork.com/jobs</p>
-            <a href="#" class="text-success h6 text-decoration-none"></i>Copy link</a>
+            <a href="#" class="text-success h6 text-decoration-none">Copy link</a>
         </div>
     </div>
 
