@@ -197,7 +197,7 @@ namespace MyWorkMVC.Services
                 },
             };
 
-            await _context.AddAsync(skills);
+            await _context.AddRangeAsync(skills);
             await _context.SaveChangesAsync();
 
             var jobPostings = new List<JobPosting>() 

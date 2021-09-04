@@ -152,7 +152,6 @@ namespace MyWorkMVC.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    JobPostId = table.Column<int>(type: "int", nullable: false),
                     Question = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
                     JobPostingId = table.Column<int>(type: "int", nullable: true)
                 },
