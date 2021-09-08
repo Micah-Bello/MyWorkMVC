@@ -275,153 +275,167 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <p>
-                            @Model.SpecializedProfile.Description
+                            @Html.Raw(Model.SpecializedProfile.Description)
                         </p>
                     </div>
                     <div>
-                        <button class="btn-sm ms-2 rounded-circle border bg-white">
+                        <button class="btn-sm ms-2 rounded-circle border bg-white" data-bs-toggle="modal" data-bs-target="#editDescriptionModal">
                             <i class="fas fa-pen text-secondary"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="border-bottom p-4">
-                <p class="h5">
-                    Work history <button class="btn-sm ms-2 rounded-circle border bg-white">
-                        <i class="fas fa-ellipsis-h text-secondary"></i>
-                    </button>
-                </p>
-
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link text-success active" id="completed-tab" data-bs-toggle="tab"
-                                data-bs-target="#completed" type="button" role="tab" aria-controls="completed"
-                                aria-selected="true">
-                            Completed jobs (2)
+            @if (Model.WorkHistory is not null)
+            {
+                <div class="border-bottom p-4">
+                    <p class="h5">
+                        Work history <button class="btn-sm ms-2 rounded-circle border bg-white">
+                            <i class="fas fa-ellipsis-h text-secondary"></i>
                         </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link text-success" id="current-tab" data-bs-toggle="tab" data-bs-target="#current"
-                                type="button" role="tab" aria-controls="current" aria-selected="false">
-                            In progress (1)
-                        </button>
-                    </li>
-                </ul>
+                    </p>
 
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="completed" role="tabpanel" aria-labelledby="completed-tab">
-                        <div>
-                            <p class="mt-3">
-                                <a href="#" class="text-success h6 text-decoration-none">
-                                    Lorem ipsum dolor sit, amet
-                                    consectetur
-                                    adipisicing elit. Sunt, blanditiis?
-                                </a>
-                            </p>
-                            <p>
-                                <span>
-                                    <i class="fas fa-star fa-xs text-success"></i>
-                                    <i class="fas fa-star fa-xs text-success"></i>
-                                    <i class="fas fa-star fa-xs text-success"></i>
-                                    <i class="fas fa-star fa-xs text-success"></i>
-                                    <i class="fas fa-star fa-xs text-secondary"></i>
-                                </span>
-                                <span class="h6">4.00</span>
-                                <span class="small">May 3, 2021 - Jul 1, 2021</span>
-                                <button class="btn-sm ms-2 rounded-circle border bg-white">
-                                    <i class="fas fa-share-alt text-secondary"></i>
-                                </button>
-                            </p>
-                            <p class="fst-italic">"Lorem ipsum dolor sit amet consectetur adipisicing elit."</p>
-                            <div class="row g-0">
-                                <div class="col-5">
-                                    <span class="h6">$500.00</span>
-                                </div>
-                                <div class="col-7">
-                                    <span>Fixed Price</span>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-                        <div>
-                            <p class="mt-3">
-                                <a href="#" class="text-success h6 text-decoration-none">
-                                    Lorem ipsum dolor sit, amet
-                                    consectetur
-                                    adipisicing elit. Sunt, blanditiis?
-                                </a>
-                            </p>
-                            <p>
-                                <span class="small">May 3, 2021 - Jul 1, 2021</span>
-                            </p>
-                            <p class="text-secondary">No feedback given</p>
-                            <div class="row g-0">
-                                <div class="col-5">
-                                    <span class="h6">$500.00</span>
-                                </div>
-                                <div class="col-7">
-                                    <span>Hourly</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="current" role="tabpanel" aria-labelledby="current-tab">
-                        <div>
-                            <p class="mt-3">
-                                <a href="#" class="text-success h6 text-decoration-none">
-                                    Lorem ipsum dolor sit, amet
-                                    consectetur
-                                    adipisicing elit. Sunt, blanditiis?
-                                </a>
-                            </p>
-                            <p>
-                                <span class="small">May 3, 2021 - Present</span>
-                            </p>
-                            <p class="text-secondary">Job in progress</p>
-                            <div class="row g-0">
-                                <div class="col-5">
-                                    <span class="h6">$500.00</span>
-                                </div>
-                                <div class="col-7">
-                                    <span>Fixed Price</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="border-bottom p-4">
-                <p class="h5">
-                    Portfolio (2)
-                    <button class="btn-sm ms-2 rounded-circle border bg-white">
-                        <i class="fas fa-ellipsis-h text-secondary"></i>
-                    </button>
-                    <button class="btn-sm ms-2 rounded-circle border bg-white">
-                        <i class="fas fa-plus text-secondary"></i>
-                    </button>
-                    <button class="btn-sm ms-2 rounded-circle border bg-white">
-                        <i class="fas fa-sort text-secondary"></i>
-                    </button>
-                </p>
-                <div class="row">
-                    <div class="col-md-4">
-                        <img class="img-fluid mt-2 mb-2" src="https://source.unsplash.com/random/200x140/?code">
-                        <p class="h6">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="bg-light border w-100 mt-2 mb-2 p-2 overflow-hidden" style="height: 140px;">
-                            <div class="fade-box">
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores reiciendis, nihil delectus
-                                    sequi numquam neque. ssssss
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-success active" id="completed-tab" data-bs-toggle="tab"
+                                    data-bs-target="#completed" type="button" role="tab" aria-controls="completed"
+                                    aria-selected="true">
+                                Completed jobs (0)
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-success" id="current-tab" data-bs-toggle="tab" data-bs-target="#current"
+                                    type="button" role="tab" aria-controls="current" aria-selected="false">
+                                In progress (0)
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+
+                            <div>
+                                <p class="mt-3">
+                                    <a href="#" class="text-success h6 text-decoration-none">
+                                        Lorem ipsum dolor sit, amet
+                                        consectetur
+                                        adipisicing elit. Sunt, blanditiis?
+                                    </a>
                                 </p>
+                                <p>
+                                    <span>
+                                        <i class="fas fa-star fa-xs text-success"></i>
+                                        <i class="fas fa-star fa-xs text-success"></i>
+                                        <i class="fas fa-star fa-xs text-success"></i>
+                                        <i class="fas fa-star fa-xs text-success"></i>
+                                        <i class="fas fa-star fa-xs text-secondary"></i>
+                                    </span>
+                                    <span class="h6">4.00</span>
+                                    <span class="small">May 3, 2021 - Jul 1, 2021</span>
+                                    <button class="btn-sm ms-2 rounded-circle border bg-white">
+                                        <i class="fas fa-share-alt text-secondary"></i>
+                                    </button>
+                                </p>
+                                <p class="fst-italic">"Lorem ipsum dolor sit amet consectetur adipisicing elit."</p>
+                                <div class="row g-0">
+                                    <div class="col-5">
+                                        <span class="h6">$500.00</span>
+                                    </div>
+                                    <div class="col-7">
+                                        <span>Fixed Price</span>
+                                    </div>
+                                </div>
+                                <hr>
                             </div>
+                            <div>
+                                <p class="mt-3">
+                                    <a href="#" class="text-success h6 text-decoration-none">
+                                        Lorem ipsum dolor sit, amet
+                                        consectetur
+                                        adipisicing elit. Sunt, blanditiis?
+                                    </a>
+                                </p>
+                                <p>
+                                    <span class="small">May 3, 2021 - Jul 1, 2021</span>
+                                </p>
+                                <p class="text-secondary">No feedback given</p>
+                                <div class="row g-0">
+                                    <div class="col-5">
+                                        <span class="h6">$500.00</span>
+                                    </div>
+                                    <div class="col-7">
+                                        <span>Hourly</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
-                        <p class="h6">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <div class="tab-pane fade" id="current" role="tabpanel" aria-labelledby="current-tab">
+
+                            <div>
+                                <p class="mt-3">
+                                    <a href="#" class="text-success h6 text-decoration-none">
+                                        Lorem ipsum dolor sit, amet
+                                        consectetur
+                                        adipisicing elit. Sunt, blanditiis?
+                                    </a>
+                                </p>
+                                <p>
+                                    <span class="small">May 3, 2021 - Present</span>
+                                </p>
+                                <p class="text-secondary">Job in progress</p>
+                                <div class="row g-0">
+                                    <div class="col-5">
+                                        <span class="h6">$500.00</span>
+                                    </div>
+                                    <div class="col-7">
+                                        <span>Fixed Price</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
                     </div>
-                    <div class="col-md-4"></div>
                 </div>
-            </div>
+            }
+
+            @if (Model.Portfolio is not null)
+            {
+                <div class="border-bottom p-4">
+                    <p class="h5">
+                        Portfolio (2)
+                        <button class="btn-sm ms-2 rounded-circle border bg-white">
+                            <i class="fas fa-ellipsis-h text-secondary"></i>
+                        </button>
+                        <button class="btn-sm ms-2 rounded-circle border bg-white">
+                            <i class="fas fa-plus text-secondary"></i>
+                        </button>
+                        <button class="btn-sm ms-2 rounded-circle border bg-white">
+                            <i class="fas fa-sort text-secondary"></i>
+                        </button>
+                    </p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-fluid mt-2 mb-2" src="https://source.unsplash.com/random/200x140/?code">
+                            <p class="h6">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-light border w-100 mt-2 mb-2 p-2 overflow-hidden" style="height: 140px;">
+                                <div class="fade-box">
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores reiciendis, nihil delectus
+                                        sequi numquam neque. ssssss
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="h6">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </div>
+            }
+
             <div class="p-4">
                 <p class="h5">
                     Skills <button class="btn-sm ms-2 rounded-circle border bg-white">
@@ -429,9 +443,10 @@
                     </button>
                 </p>
                 <div class="mt-3">
-                    <span class="bg-light border border-2 rounded-pill small px-2">Content Writing</span>
-                    <span class="bg-light border border-2 rounded-pill small px-2">Article Writing</span>
-                    <span class="bg-light border border-2 rounded-pill small px-2">Blog Writing</span>
+                    @foreach (var skill in Model.SpecializedProfile.Skills)
+                    {
+                        <span class="bg-light border border-2 rounded-pill small px-2">@skill.SkillName</span>
+                    }
                 </div>
             </div>
         </div>
@@ -888,7 +903,7 @@
                         @Html.Hidden("Id", experience.Id)
                         <div class="modal-body">
                             <p class="small fw-bold">Subject</p>
-                            <input class="form-control mb-4" type="text" name="Subject" 
+                            <input class="form-control mb-4" type="text" name="Subject"
                                    maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" value="@experience.Subject" required />
 
                             <p class="small fw-bold">Description</p>
@@ -946,11 +961,49 @@
                     @Html.Hidden("Id", Model.SpecializedProfile.Id)
                     <p class="small fw-bold">Your title</p>
                     <p>Enter a single sentence description of your professional skills/experience (e.g. Expert Web Designer with Ajax experience)</p>
-                    <input class="form-control mb-5" type="text" name="NewTitle" placeholder="EXAMPLE: Web Application Developer" 
+                    <input class="form-control mb-5" type="text" name="NewTitle" placeholder="EXAMPLE: Web Application Developer"
                            value="@Model.SpecializedProfile.Title" required maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn text-success text-decoration-none" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editDescriptionModal" tabindex="-1" aria-labelledby="editDescriptionModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content px-3 py-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDescriptionModalLabel">Overview</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="EditDescription" asp-controller="Profile">
+                <div class="modal-body">
+                    @Html.Hidden("Id", Model.SpecializedProfile.Id)
+                    <p class="small">Use this space to show clients you have the skills and experience they're looking for.</p>
+                    <ul>
+                        <li class="small">
+                            <p class="mb-2">Describe your strengths and skills</p>
+                        </li>
+                        <li class="small">
+                            <p class="mb-2">Highlight projects, accomplishments and education</p>
+                        </li>
+                        <li class="small">
+                            <p class="mb-2">Keep it short and make sure it's error-free</p>
+                        </li>
+                    </ul>
+                    <textarea id="description" name="NewDescription" minlength="2" required maxlength="5000" pattern=".*\S+.*" title="This field is required"
+                              class="form-control mb-5" placeholder="Add description" rows="3">@Model.SpecializedProfile.Description</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn text-success text-decoration-none"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
                     <button type="submit" class="btn btn-success rounded-pill px-4">Save</button>
                 </div>
             </form>
@@ -1066,13 +1119,13 @@
                 @Html.Hidden("ProfileId", Model.Profile.Id)
                 <div class="modal-body">
                     <p class="small fw-bold">Company</p>
-                    <input class="form-control mb-4" type="text" name="Company" 
+                    <input class="form-control mb-4" type="text" name="Company"
                            required maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" />
 
                     <p class="small fw-bold">Location</p>
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <input class="form-control" type="text" name="City" 
+                            <input class="form-control" type="text" name="City"
                                    required maxlength="35" minlength="2" pattern=".*\S+.*" title="This field is required" />
                         </div>
                         <div class="col-md-4">
@@ -1330,8 +1383,8 @@
 
 
                     <p class="small fw-bold">Title</p>
-                    <input class="form-control mb-4" type="text" name="Title" 
-                           required maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required"/>
+                    <input class="form-control mb-4" type="text" name="Title"
+                           required maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" />
 
                     <p class="small fw-bold">Period</p>
                     <div class="row mb-4">
@@ -1426,7 +1479,7 @@
                 @Html.Hidden("ProfileId", Model.Profile.Id)
                 <div class="modal-body">
                     <p class="small fw-bold">School</p>
-                    <input class="form-control mb-4" type="text" placeholder="Ex. Northwestern University" name="School" 
+                    <input class="form-control mb-4" type="text" placeholder="Ex. Northwestern University" name="School"
                            maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" required />
 
                     <p class="small fw-bold">Dates Attended (Optional)</p>
@@ -1495,11 +1548,11 @@
                 @Html.Hidden("ProfileId", Model.Profile.Id)
                 <div class="modal-body">
                     <p class="small fw-bold">Subject</p>
-                    <input class="form-control mb-4" type="text" name="Subject" 
+                    <input class="form-control mb-4" type="text" name="Subject"
                            maxlength="75" minlength="2" pattern=".*\S+.*" title="This field is required" required />
 
                     <p class="small fw-bold">Description</p>
-                    <textarea class="form-control mb-5" type="text" rows="8" name="Description" 
+                    <textarea class="form-control mb-5" type="text" rows="8" name="Description"
                               maxlength="500" minlength="2" pattern=".*\S+.*" title="This field is required" required></textarea>
                 </div>
                 <div class="modal-footer">
@@ -1513,3 +1566,19 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea#description',
+            menubar: false,
+            toolbar: false,
+            branding: false,
+            setup: function (editor) {
+                editor.on('change', function () {
+                    tinymce.triggerSave();
+                });
+            }
+        });
+    </script>
+}

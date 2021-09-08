@@ -32,12 +32,12 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">Find Work</a></li>
-                            <li><a class="dropdown-item" href="#">Saved Jobs</a></li>
+                            @*<li><a class="dropdown-item" href="#">Saved Jobs</a></li>*@
                             <li><a class="dropdown-item" asp-controller="Proposal" asp-action="Index">Proposals</a></li>
                             <li><a class="dropdown-item" asp-controller="Profile" asp-action="Index">Profile</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
+                    @*<li class="nav-item dropdown">
                         <a class="nav-link active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             My Jobs
                         </a>
@@ -61,7 +61,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="messages.html">Messages</a>
-                    </li>
+                    </li>*@
                 </ul>
                 <partial name="_LoginPartial" />
             </div>

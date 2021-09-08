@@ -43,6 +43,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             }
 
             var specializedProfile = await _context.SpecializedProfiles
+                .Include(sp => sp.Skills)
                 .FirstOrDefaultAsync(sp => sp.ProfileId == profile.Id && sp.IsMainProfile);
 
             if (specializedProfile is null)
@@ -76,6 +77,36 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 try
                 {
                     specializedProfile.Title = newTitle;
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditDescription(int id, string newDescription)
+        {
+            if (ModelState.IsValid)
+            {
+                var specializedProfile = await _context.SpecializedProfiles
+                    .FirstOrDefaultAsync(sp => sp.Id == id);
+
+                if (specializedProfile is null)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    specializedProfile.Description = newDescription;
 
                     await _context.SaveChangesAsync();
                 }

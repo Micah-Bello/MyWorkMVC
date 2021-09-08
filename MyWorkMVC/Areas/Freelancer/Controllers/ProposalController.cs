@@ -29,15 +29,25 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
-            var submittedProposals = await _context.Proposals
+            var proposals = await _context.Proposals
                 .Include(p => p.JobPosting)
                 .Include(p => p.SpecializedProfile)
                     .ThenInclude(sp => sp.Specialty)
-                .Where(p => p.UserId == currentUser.Id && p.Status == ProposalStatus.Submitted).ToListAsync();
+                .Where(p => p.UserId == currentUser.Id).ToListAsync();
+
+            var submittedProposals = proposals.Where(p => p.Status == ProposalStatus.Submitted).ToList();
+            var archivedProposals = proposals.Where(p => p.Status == ProposalStatus.Archived).ToList();
+            var offers = new List<Offer>();
+            var pendingInterviews = new List<Invitation>();
+            var archivedInterviews = new List<Invitation>();
 
             var vm = new ProposalsViewModel()
             {
-                SubmittedProposals = submittedProposals
+                SubmittedProposals = submittedProposals,
+                ArchivedProposals = archivedProposals,
+                Offers = offers,
+                PendingInterviews = pendingInterviews,
+                ArchivedInterviews = archivedInterviews
             };
 
             return View(vm);
@@ -86,7 +96,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubmitProposal(
-            [Bind("JobPostingId, UserId, SpecializedProfileId, Bid, CoverLetter")] Proposal proposal, 
+            [Bind("JobPostingId, UserId, SpecializedProfileId, Bid, CoverLetter")] Proposal proposal,
             SubmitProposalViewModel vm)
         {
             if (ModelState.IsValid)
@@ -96,13 +106,16 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 _context.Add(proposal);
                 await _context.SaveChangesAsync();
 
-                foreach (var answer in vm.Answers)
+                if (vm.Answers is not null)
                 {
-                    answer.ProposalId = proposal.Id;
-                    _context.Add(answer);
-                }
+                    foreach (var answer in vm.Answers)
+                    {
+                        answer.ProposalId = proposal.Id;
+                        _context.Add(answer);
+                    }
 
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
+                }
 
                 return RedirectToAction(nameof(ProposalDetails), new { id = proposal.Id });
             }
