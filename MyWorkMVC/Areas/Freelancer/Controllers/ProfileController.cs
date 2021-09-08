@@ -91,6 +91,36 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditDescription(int id, string newDescription)
+        {
+            if (ModelState.IsValid)
+            {
+                var specializedProfile = await _context.SpecializedProfiles
+                    .FirstOrDefaultAsync(sp => sp.Id == id);
+
+                if (specializedProfile is null)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    specializedProfile.Description = newDescription;
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditHourlyRate(int id, string newHourlyRate)
         {
             if (ModelState.IsValid)

@@ -86,7 +86,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubmitProposal(
-            [Bind("JobPostingId, UserId, SpecializedProfileId, Bid, CoverLetter")] Proposal proposal, 
+            [Bind("JobPostingId, UserId, SpecializedProfileId, Bid, CoverLetter")] Proposal proposal,
             SubmitProposalViewModel vm)
         {
             if (ModelState.IsValid)
@@ -96,13 +96,16 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 _context.Add(proposal);
                 await _context.SaveChangesAsync();
 
-                foreach (var answer in vm.Answers)
+                if (vm.Answers is not null)
                 {
-                    answer.ProposalId = proposal.Id;
-                    _context.Add(answer);
-                }
+                    foreach (var answer in vm.Answers)
+                    {
+                        answer.ProposalId = proposal.Id;
+                        _context.Add(answer);
+                    }
 
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
+                }
 
                 return RedirectToAction(nameof(ProposalDetails), new { id = proposal.Id });
             }
