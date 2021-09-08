@@ -34,82 +34,58 @@
     <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active-tab">
         <div class="bg-white border row p-4 mb-4">
             <p>
-                <span class="h4 mb-3 me-2">Offers (2)</span><span>
+                <span class="h4 mb-3 me-2">Offers (@Model.Offers.Count)</span><span>
                     <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip"
                        title="These are offers sent from clients."></i>
                 </span>
             </p>
             <hr>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+            @foreach (var offer in Model.Offers)
+            {
+                <div class="row">
+                    <div class="col-md-3">
+                        <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="text-success h6 text-decoration-none me-1">
+                            Lorem ipsum, dolor sit
+                            amet consectetur adipisicing elit. Veritatis,
+                            Blog
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="small">Full Stack Development</p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <a href="#" class="text-success h6 text-decoration-none me-1">
-                        Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Veritatis,
-                        Blog
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <p class="small">Full Stack Development</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
-                </div>
-                <div class="col-md-6">
-                    <a href="#" class="text-success h6 text-decoration-none me-1">
-                        Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Veritatis,
-                        Blog
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <p class="small">Full Stack Development</p>
-                </div>
-            </div>
+            }
         </div>
 
         <div class="bg-white border row p-4 mb-4">
             <p>
-                <span class="h4 mb-3 me-2">Invitations to interview (2)</span><span>
+                <span class="h4 mb-3 me-2">Invitations to interview (@Model.PendingInterviews.Count)</span><span>
                     <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip"
                        title="Clients may contact you first about a job posting. If you don't want these inquiries, you can set your profile to private."></i>
                 </span>
             </p>
             <hr>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+            @foreach (var invitation in Model.PendingInterviews)
+            {
+                <div class="row">
+                    <div class="col-md-3">
+                        <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="text-success h6 text-decoration-none me-1">
+                            Lorem ipsum, dolor sit
+                            amet consectetur adipisicing elit. Veritatis,
+                            Blog
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="small">Full Stack Development</p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <a href="#" class="text-success h6 text-decoration-none me-1">
-                        Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Veritatis,
-                        Blog
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <p class="small">Full Stack Development</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
-                </div>
-                <div class="col-md-6">
-                    <a href="#" class="text-success h6 text-decoration-none me-1">
-                        Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Veritatis,
-                        Blog
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <p class="small">Full Stack Development</p>
-                </div>
-            </div>
+            }
         </div>
 
         <div class="bg-white border row p-4 mb-4">
@@ -157,87 +133,58 @@
     <div class="tab-pane fade" id="archived" role="tabpanel" aria-labelledby="archived-tab">
         <div class="bg-white border row p-4 mb-4">
             <p>
-                <span class="h4 mb-3 me-2">Archived proposals (2)</span><span>
+                <span class="h4 mb-3 me-2">Archived proposals (@Model.ArchivedProposals.Count)</span><span>
                     <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip" title="
                                 This screen displays all of your archived proposals. It includes the date communication began with the client and the reason the proposal was archived."></i>
                 </span>
             </p>
             <hr>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Initiated Jul 15, 2021<br><span class="small">15 days ago</span></p>
+            @foreach (var proposal in Model.ArchivedProposals)
+            {
+                <div class="row">
+                    <div class="col-md-3">
+                        <p>Initiated @proposal.PostedDate.ToString("MMM dd, yyyy")<br><span class="small">@proposal.PostedDate.DateDifference()</span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <a asp-action="ProposalDetails" asp-route-id="@proposal.Id" class="text-success h6 text-decoration-none me-1">
+                            @proposal.JobPosting.Title
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        <p class="small">Declined by You</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="small">@proposal.SpecializedProfile.Specialty.CategoryName</p>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <a href="#" class="text-success h6 text-decoration-none me-1">
-                        Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Veritatis,
-                        Blog
-                    </a>
-                </div>
-                <div class="col-md-2">
-                    <p class="small">Declined by You</p>
-                </div>
-                <div class="col-md-3">
-                    <p class="small">Full Stack Development</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Initiated Jul 15, 2021<br><span class="small">15 days ago</span></p>
-                </div>
-                <div class="col-md-4">
-                    <a href="#" class="text-success h6 text-decoration-none me-1">
-                        Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Veritatis,
-                        Blog
-                    </a>
-                </div>
-                <div class="col-md-2">
-                    <p class="small">Declined by You</p>
-                </div>
-                <div class="col-md-3">
-                    <p class="small">Full Stack Development</p>
-                </div>
-            </div>
+            }
         </div>
         <div class="bg-white border row p-4 mb-4">
             <p>
-                <span class="h4 mb-3 me-2">Archived interviews (2)</span><span>
+                <span class="h4 mb-3 me-2">Archived interviews (@Model.ArchivedInterviews.Count)</span><span>
                     <i class="fas fa-question-circle text-success" data-bs-toggle="tooltip"
                        title="These are interview invitations which have been archived."></i>
                 </span>
             </p>
             <hr>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+            @foreach (var invitation in Model.ArchivedInterviews)
+            {
+                <div class="row">
+                    <div class="col-md-3">
+                        <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="text-success h6 text-decoration-none me-1">
+                            Lorem ipsum, dolor sit
+                            amet consectetur adipisicing elit. Veritatis,
+                            Blog
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="small">Declined by You</p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <a href="#" class="text-success h6 text-decoration-none me-1">
-                        Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Veritatis,
-                        Blog
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <p class="small">Declined by You</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <p>Received Jul 15, 2021<br><span class="small">15 days ago</span></p>
-                </div>
-                <div class="col-md-6">
-                    <a href="#" class="text-success h6 text-decoration-none me-1">
-                        Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Veritatis,
-                        Blog
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <p class="small">Job is Closed</p>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>

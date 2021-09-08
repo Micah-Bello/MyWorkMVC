@@ -10,11 +10,11 @@
 
     </div>
     <div class="col-md-8">
-        <div class="input-group mb-1">
+        @*<div class="input-group mb-1">
             <input type="text" class="form-control" placeholder="Search for jobs (coming soon...)">
             <button class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
         </div>
-        <a href="#" class="text-success h6 text-decoration-none ps-1">Advanced Search</a>
+        <a href="#" class="text-success h6 text-decoration-none ps-1">Advanced Search</a>*@
     </div>
     <div class="col-md-2">
 
@@ -166,7 +166,7 @@
         <div class="my-3 d-flex flex-column">
             <p class="fw-bold my-2">Proposals</p>
             <a asp-controller="Proposal" asp-action="Index" class="text-success text-decoration-none">@Model.SubmittedProposalsCount submitted proposals</a>
-            <a href="#" class="text-success text-decoration-none">@Model.Profile.AvailableConnects available connects</a>
+            <p>@Model.Profile.AvailableConnects available connects</p>
         </div>
     </div>
 </div>

@@ -285,143 +285,157 @@
                     </div>
                 </div>
             </div>
-            <div class="border-bottom p-4">
-                <p class="h5">
-                    Work history <button class="btn-sm ms-2 rounded-circle border bg-white">
-                        <i class="fas fa-ellipsis-h text-secondary"></i>
-                    </button>
-                </p>
-
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link text-success active" id="completed-tab" data-bs-toggle="tab"
-                                data-bs-target="#completed" type="button" role="tab" aria-controls="completed"
-                                aria-selected="true">
-                            Completed jobs (2)
+            @if (Model.WorkHistory is not null)
+            {
+                <div class="border-bottom p-4">
+                    <p class="h5">
+                        Work history <button class="btn-sm ms-2 rounded-circle border bg-white">
+                            <i class="fas fa-ellipsis-h text-secondary"></i>
                         </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link text-success" id="current-tab" data-bs-toggle="tab" data-bs-target="#current"
-                                type="button" role="tab" aria-controls="current" aria-selected="false">
-                            In progress (1)
-                        </button>
-                    </li>
-                </ul>
+                    </p>
 
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="completed" role="tabpanel" aria-labelledby="completed-tab">
-                        <div>
-                            <p class="mt-3">
-                                <a href="#" class="text-success h6 text-decoration-none">
-                                    Lorem ipsum dolor sit, amet
-                                    consectetur
-                                    adipisicing elit. Sunt, blanditiis?
-                                </a>
-                            </p>
-                            <p>
-                                <span>
-                                    <i class="fas fa-star fa-xs text-success"></i>
-                                    <i class="fas fa-star fa-xs text-success"></i>
-                                    <i class="fas fa-star fa-xs text-success"></i>
-                                    <i class="fas fa-star fa-xs text-success"></i>
-                                    <i class="fas fa-star fa-xs text-secondary"></i>
-                                </span>
-                                <span class="h6">4.00</span>
-                                <span class="small">May 3, 2021 - Jul 1, 2021</span>
-                                <button class="btn-sm ms-2 rounded-circle border bg-white">
-                                    <i class="fas fa-share-alt text-secondary"></i>
-                                </button>
-                            </p>
-                            <p class="fst-italic">"Lorem ipsum dolor sit amet consectetur adipisicing elit."</p>
-                            <div class="row g-0">
-                                <div class="col-5">
-                                    <span class="h6">$500.00</span>
-                                </div>
-                                <div class="col-7">
-                                    <span>Fixed Price</span>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-                        <div>
-                            <p class="mt-3">
-                                <a href="#" class="text-success h6 text-decoration-none">
-                                    Lorem ipsum dolor sit, amet
-                                    consectetur
-                                    adipisicing elit. Sunt, blanditiis?
-                                </a>
-                            </p>
-                            <p>
-                                <span class="small">May 3, 2021 - Jul 1, 2021</span>
-                            </p>
-                            <p class="text-secondary">No feedback given</p>
-                            <div class="row g-0">
-                                <div class="col-5">
-                                    <span class="h6">$500.00</span>
-                                </div>
-                                <div class="col-7">
-                                    <span>Hourly</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="current" role="tabpanel" aria-labelledby="current-tab">
-                        <div>
-                            <p class="mt-3">
-                                <a href="#" class="text-success h6 text-decoration-none">
-                                    Lorem ipsum dolor sit, amet
-                                    consectetur
-                                    adipisicing elit. Sunt, blanditiis?
-                                </a>
-                            </p>
-                            <p>
-                                <span class="small">May 3, 2021 - Present</span>
-                            </p>
-                            <p class="text-secondary">Job in progress</p>
-                            <div class="row g-0">
-                                <div class="col-5">
-                                    <span class="h6">$500.00</span>
-                                </div>
-                                <div class="col-7">
-                                    <span>Fixed Price</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="border-bottom p-4">
-                <p class="h5">
-                    Portfolio (2)
-                    <button class="btn-sm ms-2 rounded-circle border bg-white">
-                        <i class="fas fa-ellipsis-h text-secondary"></i>
-                    </button>
-                    <button class="btn-sm ms-2 rounded-circle border bg-white">
-                        <i class="fas fa-plus text-secondary"></i>
-                    </button>
-                    <button class="btn-sm ms-2 rounded-circle border bg-white">
-                        <i class="fas fa-sort text-secondary"></i>
-                    </button>
-                </p>
-                <div class="row">
-                    <div class="col-md-4">
-                        <img class="img-fluid mt-2 mb-2" src="https://source.unsplash.com/random/200x140/?code">
-                        <p class="h6">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="bg-light border w-100 mt-2 mb-2 p-2 overflow-hidden" style="height: 140px;">
-                            <div class="fade-box">
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores reiciendis, nihil delectus
-                                    sequi numquam neque. ssssss
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-success active" id="completed-tab" data-bs-toggle="tab"
+                                    data-bs-target="#completed" type="button" role="tab" aria-controls="completed"
+                                    aria-selected="true">
+                                Completed jobs (0)
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-success" id="current-tab" data-bs-toggle="tab" data-bs-target="#current"
+                                    type="button" role="tab" aria-controls="current" aria-selected="false">
+                                In progress (0)
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+
+                            <div>
+                                <p class="mt-3">
+                                    <a href="#" class="text-success h6 text-decoration-none">
+                                        Lorem ipsum dolor sit, amet
+                                        consectetur
+                                        adipisicing elit. Sunt, blanditiis?
+                                    </a>
                                 </p>
+                                <p>
+                                    <span>
+                                        <i class="fas fa-star fa-xs text-success"></i>
+                                        <i class="fas fa-star fa-xs text-success"></i>
+                                        <i class="fas fa-star fa-xs text-success"></i>
+                                        <i class="fas fa-star fa-xs text-success"></i>
+                                        <i class="fas fa-star fa-xs text-secondary"></i>
+                                    </span>
+                                    <span class="h6">4.00</span>
+                                    <span class="small">May 3, 2021 - Jul 1, 2021</span>
+                                    <button class="btn-sm ms-2 rounded-circle border bg-white">
+                                        <i class="fas fa-share-alt text-secondary"></i>
+                                    </button>
+                                </p>
+                                <p class="fst-italic">"Lorem ipsum dolor sit amet consectetur adipisicing elit."</p>
+                                <div class="row g-0">
+                                    <div class="col-5">
+                                        <span class="h6">$500.00</span>
+                                    </div>
+                                    <div class="col-7">
+                                        <span>Fixed Price</span>
+                                    </div>
+                                </div>
+                                <hr>
                             </div>
+                            <div>
+                                <p class="mt-3">
+                                    <a href="#" class="text-success h6 text-decoration-none">
+                                        Lorem ipsum dolor sit, amet
+                                        consectetur
+                                        adipisicing elit. Sunt, blanditiis?
+                                    </a>
+                                </p>
+                                <p>
+                                    <span class="small">May 3, 2021 - Jul 1, 2021</span>
+                                </p>
+                                <p class="text-secondary">No feedback given</p>
+                                <div class="row g-0">
+                                    <div class="col-5">
+                                        <span class="h6">$500.00</span>
+                                    </div>
+                                    <div class="col-7">
+                                        <span>Hourly</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
-                        <p class="h6">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        <div class="tab-pane fade" id="current" role="tabpanel" aria-labelledby="current-tab">
+
+                            <div>
+                                <p class="mt-3">
+                                    <a href="#" class="text-success h6 text-decoration-none">
+                                        Lorem ipsum dolor sit, amet
+                                        consectetur
+                                        adipisicing elit. Sunt, blanditiis?
+                                    </a>
+                                </p>
+                                <p>
+                                    <span class="small">May 3, 2021 - Present</span>
+                                </p>
+                                <p class="text-secondary">Job in progress</p>
+                                <div class="row g-0">
+                                    <div class="col-5">
+                                        <span class="h6">$500.00</span>
+                                    </div>
+                                    <div class="col-7">
+                                        <span>Fixed Price</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
                     </div>
-                    <div class="col-md-4"></div>
                 </div>
-            </div>
+            }
+
+            @if (Model.Portfolio is not null)
+            {
+                <div class="border-bottom p-4">
+                    <p class="h5">
+                        Portfolio (2)
+                        <button class="btn-sm ms-2 rounded-circle border bg-white">
+                            <i class="fas fa-ellipsis-h text-secondary"></i>
+                        </button>
+                        <button class="btn-sm ms-2 rounded-circle border bg-white">
+                            <i class="fas fa-plus text-secondary"></i>
+                        </button>
+                        <button class="btn-sm ms-2 rounded-circle border bg-white">
+                            <i class="fas fa-sort text-secondary"></i>
+                        </button>
+                    </p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-fluid mt-2 mb-2" src="https://source.unsplash.com/random/200x140/?code">
+                            <p class="h6">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-light border w-100 mt-2 mb-2 p-2 overflow-hidden" style="height: 140px;">
+                                <div class="fade-box">
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores reiciendis, nihil delectus
+                                        sequi numquam neque. ssssss
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="h6">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </div>
+            }
+
             <div class="p-4">
                 <p class="h5">
                     Skills <button class="btn-sm ms-2 rounded-circle border bg-white">
@@ -429,9 +443,10 @@
                     </button>
                 </p>
                 <div class="mt-3">
-                    <span class="bg-light border border-2 rounded-pill small px-2">Content Writing</span>
-                    <span class="bg-light border border-2 rounded-pill small px-2">Article Writing</span>
-                    <span class="bg-light border border-2 rounded-pill small px-2">Blog Writing</span>
+                    @foreach (var skill in Model.SpecializedProfile.Skills)
+                    {
+                        <span class="bg-light border border-2 rounded-pill small px-2">@skill.SkillName</span>
+                    }
                 </div>
             </div>
         </div>

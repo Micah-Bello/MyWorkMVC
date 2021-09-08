@@ -152,32 +152,6 @@ namespace MyWorkMVC.Services
             await _context.AddRangeAsync(categories);
             await _context.SaveChangesAsync();
 
-            var specializedProfile = new SpecializedProfile()
-            {
-                ProfileId = demoFreelancerProfile.Id,
-                Title = "Full Stack ASP.NET Developer",
-                Description = "I've got experience with full-stack web development",
-                HourlyRate = 20m,
-                AmountEarned = 1500m,
-                HoursWorked = 80,
-                TotalJobs = 5,
-                IsMainProfile = true,
-                CategoryId = categories.First().Id
-            };
-
-            await _context.AddAsync(specializedProfile);
-            await _context.SaveChangesAsync();
-
-            var language = new Language()
-            {
-                ProfileId = demoFreelancerProfile.Id,
-                LanguageName = "English",
-                Proficiency = LanguageProficiency.Fluent
-            };
-
-            await _context.AddAsync(language);
-            await _context.SaveChangesAsync();
-
             var skills = new List<Skill>()
             {
                 new Skill()
@@ -198,6 +172,33 @@ namespace MyWorkMVC.Services
             };
 
             await _context.AddRangeAsync(skills);
+            await _context.SaveChangesAsync();
+
+            var specializedProfile = new SpecializedProfile()
+            {
+                ProfileId = demoFreelancerProfile.Id,
+                Title = "Full Stack ASP.NET Developer",
+                Description = "I've got experience with full-stack web development",
+                HourlyRate = 20m,
+                AmountEarned = 1500m,
+                HoursWorked = 80,
+                TotalJobs = 5,
+                IsMainProfile = true,
+                CategoryId = categories.First().Id,
+                Skills = skills
+            };
+
+            await _context.AddAsync(specializedProfile);
+            await _context.SaveChangesAsync();
+
+            var language = new Language()
+            {
+                ProfileId = demoFreelancerProfile.Id,
+                LanguageName = "English",
+                Proficiency = LanguageProficiency.Fluent
+            };
+
+            await _context.AddAsync(language);
             await _context.SaveChangesAsync();
 
             var jobPostings = new List<JobPosting>() 

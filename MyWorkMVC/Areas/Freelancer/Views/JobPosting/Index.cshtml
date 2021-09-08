@@ -59,7 +59,7 @@
                     <p class="me-2">
                         <span class="h6">@Model.JobPosting.ExperienceLevel.AsString(EnumFormat.Description)</span><br>
                         <span class="small">
-                            @(Model.JobPosting.ExperienceLevel == ExperienceLevel.Entry ? "I am looking for freelancers with the lowest rates" : 
+                            @(Model.JobPosting.ExperienceLevel == ExperienceLevel.Entry ? "I am looking for freelancers with the lowest rates" :
                                 Model.JobPosting.ExperienceLevel == ExperienceLevel.Intermediate ? "I am looking for a mix of experience and value" :
                                 "I am willing to pay higher rates for the most experienced freelancers")
                         </span>
@@ -90,15 +90,13 @@
                     <p><span class="h6">@Model.JobPosting.Category.CategoryName Services</span></p>
                     <div class="mb-3">
                         <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                            Editing &
-                            Proofreading
+                            ASP.NET MVC
                         </button>
                         <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                            Fact-Checking
+                            Web Development
                         </button>
                         <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                            Technical
-                            Writing
+                            Database
                         </button>
                     </div>
                 </div>
@@ -106,7 +104,7 @@
                     <p><span class="h6">@Model.JobPosting.Category.CategoryName Deliverables</span></p>
                     <div class="mb-3">
                         <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                            Article
+                            Web Application
                         </button>
                     </div>
                 </div>
@@ -114,15 +112,7 @@
                     <p><span class="h6">Other</span></p>
                     <div class="mb-3">
                         <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                            Editing &
-                            Proofreading
-                        </button>
-                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                            Fact-Checking
-                        </button>
-                        <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                            Technical
-                            Writing
+                            Web Design
                         </button>
                     </div>
                 </div>
@@ -203,48 +193,51 @@
 
 </div>
 
-
-<div class="bg-white border row p-4 mb-4">
-    <p class="h4 mb-3">Client's recent history (9)</p>
-    <hr>
-    <div class="d-flex justify-content-between">
-        <p class="fs-5">Jobs in progress</p>
-        <i class="fas fa-chevron-down mt-2 me-2 text-success"></i>
-    </div>
-    <hr>
-    <div>
-        <div class="row">
-            <div class="col-md-9">
-                <a href="#" class="text-success h5 text-decoration-none me-1">
-                    Editor for Neuroscience
-                    Blog
-                </a>
+@if (Model.ClientJobHistory is not null)
+{
+    <div class="bg-white border row p-4 mb-4">
+        <p class="h4 mb-3">Client's recent history (9)</p>
+        <hr>
+        <div class="d-flex justify-content-between">
+            <p class="fs-5">Jobs in progress</p>
+            <i class="fas fa-chevron-down mt-2 me-2 text-success"></i>
+        </div>
+        <hr>
+        <div>
+            <div class="row">
+                <div class="col-md-9">
+                    <a href="#" class="text-success h5 text-decoration-none me-1">
+                        Editor for Neuroscience
+                        Blog
+                    </a>
+                    <p>
+                        <span class="me-1">
+                            <i class="fas fa-star text-success"></i>
+                            <i class="fas fa-star text-success"></i>
+                            <i class="fas fa-star text-success"></i>
+                            <i class="fas fa-star text-success"></i>
+                            <i class="fas fa-star text-secondary"></i>
+                        </span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut?
+                    </p>
+                </div>
+                <div class="col-md-3 d-flex flex-column">
+                    <span>Aug 2016 - Oct 2019</span>
+                    <span>4821 hrs @@ $7.50/hr</span>
+                    <span>Billed: $36,301.25</span>
+                </div>
+            </div>
+            <div class="mt-1">
                 <p>
-                    <span class="me-1">
-                        <i class="fas fa-star text-success"></i>
-                        <i class="fas fa-star text-success"></i>
-                        <i class="fas fa-star text-success"></i>
-                        <i class="fas fa-star text-success"></i>
-                        <i class="fas fa-star text-secondary"></i>
-                    </span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut?
+                    To freelancer: <a href="#" class="text-success h6 text-decoration-none me-1">Hiren D.</a>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, consequatur quia?
+                    Culpa, est! Est, beatae? Lorem ipsum dolor sit amet.
                 </p>
             </div>
-            <div class="col-md-3 d-flex flex-column">
-                <span>Aug 2016 - Oct 2019</span>
-                <span>4821 hrs @@ $7.50/hr</span>
-                <span>Billed: $36,301.25</span>
-            </div>
         </div>
-        <div class="mt-1">
-            <p>
-                To freelancer: <a href="#" class="text-success h6 text-decoration-none me-1">Hiren D.</a>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, consequatur quia?
-                Culpa, est! Est, beatae? Lorem ipsum dolor sit amet.
-            </p>
-        </div>
-    </div>
 
-</div>
+    </div>
+}
+
 
 <div class="bg-white border row p-4 mb-5">
     <p class="h4 mb-3">Other open jobs by this Client (@Model.OtherJobs.Count())</p>

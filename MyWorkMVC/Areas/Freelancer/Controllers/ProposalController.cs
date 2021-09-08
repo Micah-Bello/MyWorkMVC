@@ -29,15 +29,25 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
-            var submittedProposals = await _context.Proposals
+            var proposals = await _context.Proposals
                 .Include(p => p.JobPosting)
                 .Include(p => p.SpecializedProfile)
                     .ThenInclude(sp => sp.Specialty)
-                .Where(p => p.UserId == currentUser.Id && p.Status == ProposalStatus.Submitted).ToListAsync();
+                .Where(p => p.UserId == currentUser.Id).ToListAsync();
+
+            var submittedProposals = proposals.Where(p => p.Status == ProposalStatus.Submitted).ToList();
+            var archivedProposals = proposals.Where(p => p.Status == ProposalStatus.Archived).ToList();
+            var offers = new List<Offer>();
+            var pendingInterviews = new List<Invitation>();
+            var archivedInterviews = new List<Invitation>();
 
             var vm = new ProposalsViewModel()
             {
-                SubmittedProposals = submittedProposals
+                SubmittedProposals = submittedProposals,
+                ArchivedProposals = archivedProposals,
+                Offers = offers,
+                PendingInterviews = pendingInterviews,
+                ArchivedInterviews = archivedInterviews
             };
 
             return View(vm);
