@@ -12,5 +12,6 @@ namespace MyWorkMVC.ViewModels
         public List<JobPosting> OtherJobs { get; set; }
         public Profile Profile { get; set; }
         public List<Contract> ClientJobHistory { get; set; }
+        public Proposal Proposal { get; set; }
     }
 }

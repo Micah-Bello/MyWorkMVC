@@ -46,11 +46,15 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             var profile = await _context.Profiles
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
+            var proposal = await _context.Proposals
+                .FirstOrDefaultAsync(p => p.JobPostingId == id && p.UserId == currentUser.Id);
+
             var detailsVM = new JobDetailsViewModel()
             {
                 JobPosting = posting,
                 OtherJobs = otherJobs,
-                Profile = profile
+                Profile = profile,
+                Proposal = proposal
             };
 
             return View(detailsVM);
