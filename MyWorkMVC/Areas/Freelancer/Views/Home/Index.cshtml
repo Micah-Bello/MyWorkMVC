@@ -10,11 +10,15 @@
 
     </div>
     <div class="col-md-8">
-        @*<div class="input-group mb-1">
-            <input type="text" class="form-control" placeholder="Search for jobs (coming soon...)">
-            <button class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
-        </div>
-        <a href="#" class="text-success h6 text-decoration-none ps-1">Advanced Search</a>*@
+        
+        <form asp-controller="Search" asp-action="Index">
+            <div class="input-group mb-1">
+                <input type="text" class="form-control" name="SearchTerm" placeholder="Search for jobs">
+                <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        
+        <a href="#" class="text-success h6 text-decoration-none ps-1">Advanced Search</a>
     </div>
     <div class="col-md-2">
 
@@ -61,25 +65,26 @@
     </div>
     <div class="col-md-8 mb-4">
 
-        <div class="bg-white p-4 border">
-            <h4 class="mb-4">My Feed</h4>
-            <hr>
-            <div class="d-flex justify-content-between">
-                <div>
-                    <button class="btn badge rounded-pill bg-secondary mx-1">All</button>
-                    <button class="btn badge border rounded-pill bg-light text-secondary mx-1">
-                        Any /Web
-                        Content
-                    </button>
-                </div>
+        <div class="bg-white py-4 border">
+            <div class="d-flex justify-content-between px-4">
+                <h4>My Feed</h4>
                 <button class="btn rounded-circle border"><i class="fas fa-ellipsis-h"></i></button>
             </div>
+            <hr>
+            <div class="px-4 pb-3">
+                <button class="btn badge rounded-pill bg-secondary mx-1">All</button>
+                <button class="btn badge border rounded-pill bg-light text-secondary mx-1">
+                    Any /Web
+                    Content
+                </button>
+            </div>
+
             @foreach (var posting in Model.Feed)
             {
-                <hr>
-                <div>
+                <hr class="my-0">
+                <div class="post-panel p-4">
                     <div class="d-flex justify-content-between">
-                        <a asp-controller="JobPosting" asp-route-id="@posting.Id" class="h5 text-success text-decoration-none">@posting.Title</a>
+                        <a asp-controller="JobPosting" asp-route-id="@posting.Id" class="h5 text-decoration-none post-title"><span class="empty-span"></span>@posting.Title</a>
                         <div>
                             <button class="btn rounded-circle border">
                                 <i class="far fa-thumbs-down"></i>
@@ -91,7 +96,7 @@
                         <p class="small text-secondary">
                             <span class="fw-bolder">@(posting.IsHourly ? $"Hourly: { posting.LowerHourlyRateLimit.ToString("C") }-{ posting.HigherHourlyRateLimit.ToString("C") }" : "Fixed-price")</span> -
                             @posting.ExperienceLevel.AsString(EnumFormat.Description)
-                            @(posting.IsHourly ? "" : $" - Est. Budget: { posting.Budget.ToString("C0") }") 
+                            @(posting.IsHourly ? "" : $" - Est. Budget: { posting.Budget.ToString("C0") }")
                             @(posting.IsHourly ? $" - Est. Time: { posting.Duration.AsString(EnumFormat.Description) }, { posting.RequiredHours.AsString(EnumFormat.Description) }" : "")
                             - Posted @posting.PostedDate.DateDifference()
                         </p>
