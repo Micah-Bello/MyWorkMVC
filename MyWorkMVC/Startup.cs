@@ -43,6 +43,7 @@ namespace MyWorkMVC
             services.AddRazorPages();
 
             services.AddScoped<SeedDataService>();
+            services.AddScoped<SearchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
