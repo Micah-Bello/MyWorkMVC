@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyWorkMVC.Data;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace MyWorkMVC.Areas.Freelancer.Controllers
 {
     [Area("Freelancer")]
+    [Authorize(Roles = "Freelancer,DemoFreelancer")]
     public class JobPostingController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -44,11 +46,15 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             var profile = await _context.Profiles
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
+            var proposal = await _context.Proposals
+                .FirstOrDefaultAsync(p => p.JobPostingId == id && p.UserId == currentUser.Id);
+
             var detailsVM = new JobDetailsViewModel()
             {
                 JobPosting = posting,
                 OtherJobs = otherJobs,
-                Profile = profile
+                Profile = profile,
+                Proposal = proposal
             };
 
             return View(detailsVM);

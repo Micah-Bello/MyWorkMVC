@@ -1,0 +1,103 @@
+﻿@{ 
+    ViewData["Title"] = $"Freelance { ViewData["SearchTerm"] } Online Jobs";
+}
+
+@model IPagedList<JobPosting>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="mt-4 px-4">
+                <h1 class="h4">Filter By</h1>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="bg-white border p-3 row mt-4 mb-4">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-success h6 active">Search</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link text-dark h6" href="saved-jobs.html">Saved jobs (5)</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex justify-content-between py-4">
+                    <div class="w-100">
+                        <form asp-action="Search">
+                            <div class="input-group mb-1">
+                                <input type="text" class="form-control" name="SearchTerm" placeholder="Search for jobs" value="@ViewData["SearchTerm"]">
+                                <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    
+                    <button class="btn rounded-pill btn-outline-success d-flex ms-2"><i class="fas fa-folder mt-1 me-2"></i>Save&nbsp;Search</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p><i class="fas fa-rss text-success me-3"></i><span class="h6">@Model.Count</span> @(Model.Count > 1 ? "jobs" : "job") found</p>
+                    </div>
+                </div>
+
+                @foreach (var posting in Model)
+                {
+                    <div class="p-3 pb-0 mb-0 post-panel">
+                        <div class="d-flex justify-content-between">
+                            <a asp-controller="JobPosting" asp-route-id="@posting.Id" class="h5 post-title text-decoration-none">
+                                <span class="empty-span"></span>@posting.Title
+                            </a>
+                            <div>
+                                <button class="btn rounded-circle border"><i class="far fa-thumbs-down"></i></button>
+                                <button class="btn rounded-circle border"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="small text-secondary">
+                                <span class="fw-bolder">@(posting.IsHourly ? $"Hourly: { posting.LowerHourlyRateLimit.ToString("C") }-{ posting.HigherHourlyRateLimit.ToString("C") }" : "Fixed-price")</span> -
+                                @posting.ExperienceLevel.AsString(EnumFormat.Description)
+                                @(posting.IsHourly ? "" : $" - Est. Budget: { posting.Budget.ToString("C0") }")
+                                @(posting.IsHourly ? $" - Est. Time: { posting.Duration.AsString(EnumFormat.Description) }, { posting.RequiredHours.AsString(EnumFormat.Description) }" : "")
+                                - Posted @posting.PostedDate.DateDifference()
+                            </p>
+                            <p>
+                                @posting.Description
+                            </p>
+                        </div>
+                        <div class="mb-1">
+                            @foreach (var skill in posting.Skills)
+                            {
+                                <button class="btn badge border rounded-pill bg-light text-secondary me-2">
+                                    @skill.SkillName
+                                </button>
+                            }
+                        </div>
+                        <div>
+                            <p class="small text-secondary">
+                                Proposals: <span class="fw-bolder">
+                                    @(posting.Proposals.Count < 5 ? "Less than 5" :
+                                    posting.Proposals.Count > 5 && posting.Proposals.Count < 10 ? "5 to 10" :
+                                    posting.Proposals.Count > 15 && posting.Proposals.Count < 20 ? "15 to 20" : "20 to 50")
+                                </span>
+                            </p>
+                            <p class="small text-secondary">
+                                <i class="rounded-circle border border-2 border-secondary p-1 fas fa-check fa-xs me-1"></i>
+                                Payment unverified
+                                <span class="mx-2">
+                                    <i class="fas fa-star fa-xs text-success"></i>
+                                    <i class="fas fa-star fa-xs text-success"></i>
+                                    <i class="fas fa-star fa-xs text-success"></i>
+                                    <i class="fas fa-star fa-xs text-success"></i>
+                                    <i class="fas fa-star fa-xs text-secondary"></i>
+                                </span>
+                                <span class="fw-bolder me-2">$0 spent</span>
+                                <span class="fw-bolder"><i class="fas fa-map-marker-alt me-1"></i>@posting.Location</span>
+                            </p>
+                        </div>
+                    </div>
+                    <hr class="mb-0" />
+                }
+
+            </div>
+        </div>
+    </div>

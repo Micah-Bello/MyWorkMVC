@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 namespace MyWorkMVC.Areas.Freelancer.Controllers
 {
     [Area("Freelancer")]
+    [Authorize(Roles ="Freelancer,DemoFreelancer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -39,8 +41,8 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 .Include(jp => jp.Proposals)
                 .ToListAsync();
 
-            var proposalsCount = await _context.Proposals
-                .Where(p => p.UserId == currentUser.Id && p.Status == ProposalStatus.Submitted).CountAsync();
+            var submittedProposals = await _context.Proposals
+                .Where(p => p.UserId == currentUser.Id && p.Status == ProposalStatus.Submitted).ToListAsync();
 
             var profile = await _context.Profiles
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
@@ -48,7 +50,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             FeedViewModel feedVM = new()
             {
                 Feed = feed,
-                SubmittedProposalsCount = proposalsCount,
+                SubmittedProposals = submittedProposals,
                 Profile = profile
             };
 
