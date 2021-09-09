@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 namespace MyWorkMVC.Areas.Freelancer.Controllers
 {
     [Area("Freelancer")]
+    [Authorize(Roles ="Freelancer,DemoFreelancer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

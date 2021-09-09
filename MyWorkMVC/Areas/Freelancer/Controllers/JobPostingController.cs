@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyWorkMVC.Data;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace MyWorkMVC.Areas.Freelancer.Controllers
 {
     [Area("Freelancer")]
+    [Authorize(Roles = "Freelancer,DemoFreelancer")]
     public class JobPostingController : Controller
     {
         private readonly ApplicationDbContext _context;
