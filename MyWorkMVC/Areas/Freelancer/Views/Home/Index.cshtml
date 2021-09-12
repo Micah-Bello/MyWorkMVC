@@ -82,62 +82,14 @@
             @foreach (var posting in Model.Feed)
             {
                 <hr class="my-0">
-                <div class="post-panel p-4">
-                    @if (Model.SubmittedProposals.Any(p => p.JobPostingId == posting.Id))
+                <div class="post-panel p-4" id="post-item-@posting.Id">
+                    @await Html.PartialAsync("_JobPostingListItemPartial", new JobListItemViewModel
                     {
-                        <p class="text-info"><i class="far fa-file-alt me-2"></i>Applied</p>
-                    }
-                    <div class="d-flex justify-content-between">
-                        <a asp-controller="JobPosting" asp-route-id="@posting.Id" class="h5 text-decoration-none post-title"><span class="empty-span"></span>@posting.Title</a>
-                        <div>
-                            <button class="btn rounded-circle border">
-                                <i class="far fa-thumbs-down"></i>
-                            </button>
-                            <button class="btn rounded-circle border"><i class="far fa-heart"></i></button>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="small text-secondary">
-                            <span class="fw-bolder">@(posting.IsHourly ? $"Hourly: { posting.LowerHourlyRateLimit.ToString("C") }-{ posting.HigherHourlyRateLimit.ToString("C") }" : "Fixed-price")</span> -
-                            @posting.ExperienceLevel.AsString(EnumFormat.Description)
-                            @(posting.IsHourly ? "" : $" - Est. Budget: { posting.Budget.ToString("C0") }")
-                            @(posting.IsHourly ? $" - Est. Time: { posting.Duration.AsString(EnumFormat.Description) }, { posting.RequiredHours.AsString(EnumFormat.Description) }" : "")
-                            - Posted @posting.PostedDate.DateDifference()
-                        </p>
-                        <p>
-                            @posting.Description
-                        </p>
-                    </div>
-                    <div class="mb-1">
-                        @foreach (var skill in posting.Skills)
-                        {
-                            <button class="btn badge border rounded-pill bg-light text-secondary me-2">
-                                @skill.SkillName
-                            </button>
-                        }
-                    </div>
-                    <div>
-                        <p class="small text-secondary">
-                            Proposals: <span class="fw-bolder">
-                                @(posting.Proposals.Count < 5 ? "Less than 5" :
-                                    posting.Proposals.Count > 5 && posting.Proposals.Count < 10 ? "5 to 10" :
-                                    posting.Proposals.Count > 15 && posting.Proposals.Count < 20 ? "15 to 20" : "20 to 50")
-                            </span>
-                        </p>
-                        <p class="small text-secondary">
-                            <i class="rounded-circle border border-2 border-secondary p-1 fas fa-check fa-xs me-1"></i>
-                            Payment unverified
-                            <span class="mx-2">
-                                <i class="fas fa-star fa-xs text-success"></i>
-                                <i class="fas fa-star fa-xs text-success"></i>
-                                <i class="fas fa-star fa-xs text-success"></i>
-                                <i class="fas fa-star fa-xs text-success"></i>
-                                <i class="fas fa-star fa-xs text-secondary"></i>
-                            </span>
-                            <span class="fw-bolder me-2">$0 spent</span>
-                            <span class="fw-bolder"><i class="fas fa-map-marker-alt me-1"></i>@posting.Location</span>
-                        </p>
-                    </div>
+                   JobPosting = posting,
+                   SubmittedProposals = Model.SubmittedProposals,
+                   SavedJobs = Model.Profile.SavedJobs.ToList(),
+                   ReturnUrl = Url.Content($"~/Freelancer/Home#post-item-{posting.Id}")
+                    })
                 </div>
             }
 

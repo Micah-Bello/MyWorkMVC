@@ -45,6 +45,8 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 .Where(p => p.UserId == currentUser.Id && p.Status == ProposalStatus.Submitted).ToListAsync();
 
             var profile = await _context.Profiles
+                .Include(p => p.SavedJobs).ThenInclude(jp => jp.Skills)
+                .Include(p => p.SavedJobs).ThenInclude(jp => jp.Proposals)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             FeedViewModel feedVM = new()
