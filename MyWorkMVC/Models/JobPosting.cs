@@ -63,5 +63,6 @@ namespace MyWorkMVC.Models
         public virtual ICollection<Skill> Skills { get; set; }
         public virtual ICollection<ScreeningQuestion> ScreeningQuestions { get; set; }
         public virtual ICollection<Language> OtherLanguages { get; set; }
+        public virtual ICollection<Profile> InterestedUsers { get; set; }
     }
 }

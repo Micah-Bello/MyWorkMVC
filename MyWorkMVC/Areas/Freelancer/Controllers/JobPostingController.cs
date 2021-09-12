@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyWorkMVC.Data;
+using MyWorkMVC.Enums;
 using MyWorkMVC.Models;
 using MyWorkMVC.ViewModels;
 using System;
@@ -44,6 +45,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
                 .ToListAsync();
 
             var profile = await _context.Profiles
+                .Include(p => p.SavedJobs)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
             var proposal = await _context.Proposals
@@ -58,6 +60,73 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             };
 
             return View(detailsVM);
+        }
+
+        public async Task<IActionResult> SavedJobs()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var profile = await _context.Profiles
+                .Include(p => p.SavedJobs).ThenInclude(jp => jp.Skills)
+                .Include(p => p.SavedJobs).ThenInclude(jp => jp.Proposals)
+                .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+
+            var savedJobs = profile.SavedJobs.ToList();
+
+            var submittedProposals = await _context.Proposals
+                .Where(p => p.UserId == currentUser.Id && p.Status == ProposalStatus.Submitted).ToListAsync();
+
+            var vm = new SavedJobsViewModel()
+            {
+                SavedJobs = savedJobs,
+                SubmittedProposals = submittedProposals
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveJobPosting(int id, string returnUrl) 
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+
+                var posting = await _context.JobPostings
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+                var profile = await _context.Profiles
+                    .Include(p => p.SavedJobs)
+                    .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+
+                profile.SavedJobs.Add(posting);
+                await _context.SaveChangesAsync();
+                return LocalRedirect(returnUrl);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveSavedJobPosting(int id, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+
+                var posting = await _context.JobPostings
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+                var profile = await _context.Profiles
+                    .Include(p => p.SavedJobs)
+                    .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+
+                profile.SavedJobs.Remove(posting);
+                await _context.SaveChangesAsync();
+                return LocalRedirect(returnUrl);
+            }
+            return NotFound();
         }
     }
 }

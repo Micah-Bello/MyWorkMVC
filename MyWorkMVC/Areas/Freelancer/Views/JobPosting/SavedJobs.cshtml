@@ -1,0 +1,30 @@
+﻿@model SavedJobsViewModel
+@{
+    ViewData["Title"] = "Saved Jobs";
+}
+
+<div class="bg-white border p-3 row mt-4 mb-4">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a asp-controller="Search" asp-action="Index" class="nav-link text-success h6">Search</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-success h6 active">Saved jobs (@Model.SavedJobs.Count)</button>
+        </li>
+    </ul>
+
+    @foreach (var posting in Model.SavedJobs)
+    {
+        <div class="p-3 pb-0 mb-0 post-panel">
+            @await Html.PartialAsync("_JobPostingListItemPartial",
+           new JobListItemViewModel
+                {
+               JobPosting = posting,
+               SubmittedProposals = Model.SubmittedProposals,
+               SavedJobs = Model.SavedJobs,
+               ReturnUrl = Url.Content("~/Freelancer/JobPosting/SavedJobs")
+                })
+        </div>
+        <hr class="mb-0" />
+    }
+</div>

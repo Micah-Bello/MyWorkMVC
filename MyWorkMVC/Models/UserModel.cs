@@ -43,6 +43,5 @@ namespace MyWorkMVC.Models
         public IFormFile Image { get; set; }
 
         public virtual Profile Profile { get; set; }
-
     }
 }

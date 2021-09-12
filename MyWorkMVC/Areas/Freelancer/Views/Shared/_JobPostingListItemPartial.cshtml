@@ -1,0 +1,71 @@
+﻿@model JobListItemViewModel
+
+@if (Model.SubmittedProposals.Any(p => p.JobPostingId == Model.JobPosting.Id))
+{
+    <p class="text-info"><i class="far fa-file-alt me-2"></i>Applied</p>
+}
+<div class="d-flex justify-content-between">
+    <a asp-controller="JobPosting" asp-action="Index" asp-route-id="@Model.JobPosting.Id" class="h5 text-decoration-none post-title"><span class="empty-span"></span>@Model.JobPosting.Title</a>
+    <div>
+        <a class="btn rounded-circle border list-item-actions"><i class="far fa-thumbs-down"></i></a>
+        @if (Model.SavedJobs.Any(sj => sj.Id == Model.JobPosting.Id))
+        {
+            <form class="d-inline" asp-controller="JobPosting" asp-action="RemoveSavedJobPosting">
+                @Html.Hidden("Id", Model.JobPosting.Id)
+                @Html.Hidden("returnUrl", Model.ReturnUrl)
+                <button type="submit" class="btn rounded-circle border list-item-actions"><i class="fas fa-heart"></i></button>
+            </form>
+        }
+        else
+        {
+            <form class="d-inline" asp-controller="JobPosting" asp-action="SaveJobPosting">
+                @Html.Hidden("Id", Model.JobPosting.Id)
+                @Html.Hidden("returnUrl", Model.ReturnUrl)
+                <button type="submit" class="btn rounded-circle border list-item-actions"><i class="far fa-heart"></i></button>
+            </form>
+        }
+
+    </div>
+</div>
+<div>
+    <p class="small text-secondary">
+        <span class="fw-bolder">@(Model.JobPosting.IsHourly ? $"Hourly: { Model.JobPosting.LowerHourlyRateLimit.ToString("C") }-{ Model.JobPosting.HigherHourlyRateLimit.ToString("C") }" : "Fixed-price")</span> -
+        @Model.JobPosting.ExperienceLevel.AsString(EnumFormat.Description)
+        @(Model.JobPosting.IsHourly ? "" : $" - Est. Budget: { Model.JobPosting.Budget.ToString("C0") }")
+        @(Model.JobPosting.IsHourly ? $" - Est. Time: { Model.JobPosting.Duration.AsString(EnumFormat.Description) }, { Model.JobPosting.RequiredHours.AsString(EnumFormat.Description) }" : "")
+        - Posted @Model.JobPosting.PostedDate.DateDifference()
+    </p>
+    <p>
+        @Model.JobPosting.Description
+    </p>
+</div>
+<div class="mb-1">
+    @foreach (var skill in Model.JobPosting.Skills)
+    {
+        <button class="btn badge border rounded-pill bg-light text-secondary me-2">
+            @skill.SkillName
+        </button>
+    }
+</div>
+<div>
+    <p class="small text-secondary">
+        Proposals: <span class="fw-bolder">
+            @(Model.JobPosting.Proposals.Count < 5 ? "Less than 5" :
+                                    Model.JobPosting.Proposals.Count > 5 && Model.JobPosting.Proposals.Count < 10 ? "5 to 10" :
+                                    Model.JobPosting.Proposals.Count > 15 && Model.JobPosting.Proposals.Count < 20 ? "15 to 20" : "20 to 50")
+        </span>
+    </p>
+    <p class="small text-secondary">
+        <i class="rounded-circle border border-2 border-secondary p-1 fas fa-check fa-xs me-1"></i>
+        Payment unverified
+        <span class="mx-2">
+            <i class="fas fa-star fa-xs text-success"></i>
+            <i class="fas fa-star fa-xs text-success"></i>
+            <i class="fas fa-star fa-xs text-success"></i>
+            <i class="fas fa-star fa-xs text-success"></i>
+            <i class="fas fa-star fa-xs text-secondary"></i>
+        </span>
+        <span class="fw-bolder me-2">$0 spent</span>
+        <span class="fw-bolder"><i class="fas fa-map-marker-alt me-1"></i>@Model.JobPosting.Location</span>
+    </p>
+</div>
