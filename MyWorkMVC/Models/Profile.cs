@@ -34,6 +34,6 @@ namespace MyWorkMVC.Models
         public virtual ICollection<SpecializedProfile> SpecializedProfiles { get; set; }
         public virtual ICollection<EmploymentHistory> EmploymentHistory { get; set; }
         public virtual ICollection<OtherExperience> OtherExperiences { get; set; }
-
+        public virtual ICollection<JobPosting> SavedJobs { get; set; }
     }
 }

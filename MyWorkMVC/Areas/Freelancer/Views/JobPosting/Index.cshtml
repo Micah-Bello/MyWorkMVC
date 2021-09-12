@@ -168,9 +168,28 @@
                     <a disabled class="btn btn-success disabled rounded-pill w-100 my-2">Submit a Proposal</a>
                 }
 
-                <button class="btn btn-outline-success rounded-pill w-100 mt-2 mb-4">
-                    <i class="far fa-heart fa-sm me-2"></i>Save Job
-                </button>
+                @if (Model.Profile.SavedJobs.Any(sj => sj.Id == Model.JobPosting.Id))
+                {
+                    <form asp-controller="JobPosting" asp-action="RemoveSavedJobPosting">
+                        @Html.Hidden("Id", Model.JobPosting.Id)
+                        @Html.Hidden("returnUrl", Url.Content($"~/Freelancer/JobPosting/Index/{Model.JobPosting.Id}"))
+                        <button type="submit" class="btn btn-outline-success rounded-pill w-100 mt-2 mb-4">
+                            <i class="fas fa-heart fa-sm me-2"></i>Saved
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="JobPosting" asp-action="SaveJobPosting">
+                        @Html.Hidden("Id", Model.JobPosting.Id)
+                        @Html.Hidden("returnUrl", Url.Content($"~/Freelancer/JobPosting/Index/{Model.JobPosting.Id}"))
+                        <button type="submit" class="btn btn-outline-success rounded-pill w-100 mt-2 mb-4">
+                            <i class="far fa-heart fa-sm me-2"></i>Save Job
+                        </button>
+                    </form>
+                }
+
+
                 <a href="#" class="text-success h6 text-decoration-none">
                     <i class="fas fa-flag me-2"></i>Flag as inappropriate
                 </a>
