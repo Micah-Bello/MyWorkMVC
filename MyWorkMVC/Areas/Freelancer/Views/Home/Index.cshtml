@@ -11,14 +11,13 @@
     </div>
     <div class="col-md-8">
 
-        <form asp-controller="Search" asp-action="Search">
+        <form asp-controller="Search" asp-action="Index" method="get">
             <div class="input-group mb-1">
                 <input type="text" class="form-control" name="SearchTerm" placeholder="Search for jobs">
                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
             </div>
         </form>
 
-        <a href="#" class="text-success h6 text-decoration-none ps-1">Advanced Search</a>
     </div>
     <div class="col-md-2">
 
@@ -26,42 +25,17 @@
 </div>
 <div class="row mt-4">
     <div class="col-md-2">
-        <div class="mb-4">
-            <button type="button" class="btn fw-bold" aria-current="true">
-                My Feed
-            </button>
-            <button type="button" class="btn fw-bold">Best Matches</button>
-            <button type="button" class="btn fw-bold">Most Recent</button>
-        </div>
         <div class="ps-2">
             <p class="h5">Recent Searches</p>
             <ul class="list-unstyled">
-                <li class="my-1">
-                    <a href="#" class="text-success text-decoration-none">asp.net</a>
-                </li>
-                <li class="my-1">
-                    <a href="#" class="text-success text-decoration-none">blazor</a>
-                </li>
-                <li class="my-1">
-                    <a href="#" class="text-success text-decoration-none">web api</a>
-                </li>
+                @foreach (var search in Model.RecentSearches)
+                {
+                    <li class="my-1">
+                        <a asp-controller="Search" asp-route-searchTerm="@search.Keyword" class="text-success text-decoration-none">@search.Keyword</a>
+                    </li>
+                }
             </ul>
         </div>
-        <div class="ps-2">
-            <p class="h5">My Categories</p>
-            <ul class="list-unstyled">
-                <li class="my-2">
-                    <a href="#" class="text-success text-decoration-none lh-sm">Web Development</a>
-                </li>
-                <li class="my-2">
-                    <a href="#" class="text-success text-decoration-none lh-sm">Mobile Development</a>
-                </li>
-                <li class="my-2">
-                    <a href="#" class="text-success text-decoration-none lh-sm">Other - Software Development</a>
-                </li>
-            </ul>
-        </div>
-        <button class="btn-sm rounded-circle border bg-white"><i class="fas fa-pen"></i></button>
     </div>
     <div class="col-md-8 mb-4">
 
@@ -73,10 +47,12 @@
             <hr>
             <div class="px-4 pb-3">
                 <button class="btn badge rounded-pill bg-secondary mx-1">All</button>
-                <button class="btn badge border rounded-pill bg-light text-secondary mx-1">
-                    Any /Web
-                    Content
-                </button>
+                @foreach (var search in Model.Profile.SavedSearches.Where(s => s.IsSaved))
+                {
+                    <button class="btn badge border rounded-pill bg-light text-secondary mx-1">
+                        @search.Keyword
+                    </button>
+                }
             </div>
 
             @foreach (var posting in Model.Feed)

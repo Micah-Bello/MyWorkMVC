@@ -11,6 +11,6 @@ namespace MyWorkMVC.ViewModels
     {
         public IPagedList<JobPosting> SearchResults { get; set; }
         public List<Proposal> SubmittedProposals { get; set; }
-        public List<JobPosting> SavedJobs { get; set; }
+        public Profile Profile { get; set; }
     }
 }

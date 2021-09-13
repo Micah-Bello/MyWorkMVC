@@ -11,5 +11,6 @@ namespace MyWorkMVC.ViewModels
         public List<JobPosting> Feed { get; set; }
         public List<Proposal> SubmittedProposals { get; set; }
         public Profile Profile { get; set; }
+        public List<Search> RecentSearches { get; set; }
     }
 }

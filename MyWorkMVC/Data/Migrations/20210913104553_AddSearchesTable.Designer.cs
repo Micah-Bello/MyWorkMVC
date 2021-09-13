@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWorkMVC.Data;
 
 namespace MyWorkMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210913104553_AddSearchesTable")]
+    partial class AddSearchesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -726,9 +728,6 @@ namespace MyWorkMVC.Migrations
                     b.Property<bool>("IsHourly")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsSaved")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Keyword")
                         .HasColumnType("nvarchar(max)");
 
@@ -737,9 +736,6 @@ namespace MyWorkMVC.Migrations
 
                     b.Property<int>("RequiredHours")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("SearchDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
