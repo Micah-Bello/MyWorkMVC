@@ -34,7 +34,7 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
 
         public async Task<IActionResult> Index(int? page, string searchTerm)
         {
-            ViewData["SearchTerm"] = searchTerm;
+            ViewData["SearchTerm"] = searchTerm ?? "";
 
             var searchResults = _searchService.SearchJobs(searchTerm);
 
@@ -50,15 +50,32 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             var profile = await _context.Profiles
                 .Include(p => p.SavedJobs).ThenInclude(jp => jp.Skills)
                 .Include(p => p.SavedJobs).ThenInclude(jp => jp.Proposals)
+                .Include(p => p.SavedSearches)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
 
-            var savedJobs = profile.SavedJobs.ToList();
+            var search = new Search
+            {
+                ProfileId = profile.Id,
+                Keyword = searchTerm,
+                SearchDate = DateTime.Now
+            };
+
+            if (profile.SavedSearches.Any(s => s.Keyword == searchTerm))
+            {
+                profile.SavedSearches.FirstOrDefault(s => s.Keyword == searchTerm).SearchDate = DateTime.Now;
+            }
+            else
+            {
+                _context.Add(search);
+            }
+
+            await _context.SaveChangesAsync();
 
             var vm = new SearchResultsViewModel
             {
                 SubmittedProposals = submittedProposals,
                 SearchResults = pagedSearchResults,
-                SavedJobs = savedJobs
+                Profile = profile
             };
 
             return View(vm);
@@ -66,11 +83,20 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Search(string searchTerm)
+        public async Task<IActionResult> SaveSearch(Search search)
         {
-            return RedirectToAction(nameof(Index), new { searchTerm });
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var profile = await _context.Profiles
+                .Include(p => p.SavedSearches)
+                .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+
+            profile.SavedSearches.First(s => s.Keyword == search.Keyword).IsSaved = true;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index), new { searchTerm = search.Keyword });
         }
 
-        
     }
 }

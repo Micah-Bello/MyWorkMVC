@@ -31,6 +31,7 @@ namespace MyWorkMVC.Data
         public DbSet<Milestone> Milestones { get; set; }
         public DbSet<ScreeningQuestion> ScreeningQuestions { get; set; }
         public DbSet<ScreeningQuestionAnswer> ScreeningQuestionAnswers { get; set; }
+        public DbSet<Search> Searches { get; set; }
 
     }
 }

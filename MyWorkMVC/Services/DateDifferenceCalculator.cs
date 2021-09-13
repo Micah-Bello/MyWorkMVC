@@ -10,7 +10,7 @@ namespace MyWorkMVC.Services
 
         public static string DateDifference(this DateTime date)
         {
-            var diff = DateTime.UtcNow - date;
+            var diff = DateTime.Now - date;
 
             var months = (int)(diff.TotalDays / 30);
             var days = (int)diff.TotalDays;

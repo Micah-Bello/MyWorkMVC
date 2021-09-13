@@ -47,13 +47,17 @@ namespace MyWorkMVC.Areas.Freelancer.Controllers
             var profile = await _context.Profiles
                 .Include(p => p.SavedJobs).ThenInclude(jp => jp.Skills)
                 .Include(p => p.SavedJobs).ThenInclude(jp => jp.Proposals)
+                .Include(p => p.SavedSearches)
                 .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+
+            var recentSearches = profile.SavedSearches.OrderByDescending(s => s.SearchDate).Take(5).ToList();
 
             FeedViewModel feedVM = new()
             {
                 Feed = feed,
                 SubmittedProposals = submittedProposals,
-                Profile = profile
+                Profile = profile,
+                RecentSearches = recentSearches
             };
 
             return View(feedVM);
