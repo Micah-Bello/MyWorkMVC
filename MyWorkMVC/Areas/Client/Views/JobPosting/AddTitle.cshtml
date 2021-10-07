@@ -1,0 +1,48 @@
+﻿@model JobPosting
+@{
+    ViewData["Title"] = "Title";
+}
+
+<div class="border mt-4 rounded-3 row g-0">
+    <div class="col-md-6 p-4" style="background: rgb(42, 65, 65); border-radius: 5px 0px 0px 5px;">
+        <div class="progress mt-2" style="height: 8px;">
+            <div class="progress-bar rounded bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
+                 aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="d-flex justify-content-between mb-5">
+            <p class="small text-success">Title</p>
+            <p class="small text-white">Skills</p>
+            <p class="small text-white">Scope</p>
+            <p class="small text-white">Budget</p>
+        </div>
+
+        <h1 class="h2 text-white">Let's start with a strong title.</h1>
+        <p class="text-white lh-sm mt-4">
+            This helps your job post stand out to the right candidates.
+            It’s the first thing they’ll see, so make it count!
+        </p>
+    </div>
+    <div class="col-md-6 px-5 py-4">
+        <div class="my-5 py-5">
+            <h1 class="h5">Write a title for your job post</h1>
+            <input type="text" class="form-control">
+            <p class="h6 mt-4">Example titles</p>
+            <ul>
+                <li class="lh-sm">
+                    Build responsive WordPress site with booking/payment functionality
+                </li>
+                <li class="lh-sm">
+                    Graphic designer needed to design ad creative for multiple campaigns
+                </li>
+                <li class="lh-sm">
+                    Facebook ad specialist needed for product launch
+                </li>
+            </ul>
+            <a href="#" class="text-success text-decoration-none">Select Job Category</a>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a href="job-post-getting-started.html" class="btn btn-outline-success rounded-pill px-4 me-4 mb-auto">Back</a>
+            <a href="add-post-skills.html" class="btn btn-success rounded-pill px-4 mb-auto">Next: Skills</a>
+        </div>
+    </div>
+</div>

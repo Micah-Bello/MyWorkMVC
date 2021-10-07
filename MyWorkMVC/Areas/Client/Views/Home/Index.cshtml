@@ -1,172 +1,245 @@
-﻿@{
-    ViewData["Title"] = "My Job Feed";
+﻿@model MyJobsViewModel
+@{
+    ViewData["Title"] = "My Jobs";
 }
 
-<div class="row mt-4">
-    <div class="col-md-2">
-        <h3>Find Work</h3>
-
+<div class="row m-4 me-0">
+    <div class="col-md-6 my-3 d-flex">
+        <h1 class="h3">@Model.User.FullName</h1>
+        <a href="#"><i class="fas fa-user-plus text-success mt-3 ms-4"></i></a>
+        <a class="btn btn-primary rounded-circle px-3 ms-3">
+            <i class="fas fa-question text-white fa-xs"></i>
+        </a>
     </div>
-    <div class="col-md-8">
-        <div class="input-group mb-1">
-            <input type="text" class="form-control" placeholder="Search for jobs">
-            <button class="btn btn-success" type="button"><i class="fas fa-search"></i></button>
-        </div>
-        <a href="#" class="text-success h6 text-decoration-none ps-1">Advanced Search</a>
-    </div>
-    <div class="col-md-2">
-
+    <div class="col-md-6 my-3 d-flex justify-content-end">
+        <a class="btn btn-primary rounded-circle px-3 me-3">
+            <i class="fas fa-question text-white fa-xs"></i>
+        </a>
+        <button class="btn btn-outline-success rounded-pill px-4 me-4 mb-auto">
+            Browse Project
+            Catalog
+        </button>
+        <a asp-controller="JobPosting" asp-action="GettingStarted" class="btn btn-success rounded-pill px-4 mb-auto">Post a Job</a>
     </div>
 </div>
-<div class="row mt-4">
-    <div class="col-md-2">
-        <div class="mb-4">
-            <button type="button" class="btn fw-bold" aria-current="true">
-                My Feed
-            </button>
-            <button type="button" class="btn fw-bold">Best Matches</button>
-            <button type="button" class="btn fw-bold">Most Recent</button>
-        </div>
-        <div class="ps-2">
-            <p class="h5">Recent Searches</p>
-            <ul class="list-unstyled">
-                <li class="my-1">
-                    <a href="#" class="text-success text-decoration-none">asp.net</a>
-                </li>
-                <li class="my-1">
-                    <a href="#" class="text-success text-decoration-none">blazor</a>
-                </li>
-                <li class="my-1">
-                    <a href="#" class="text-success text-decoration-none">web api</a>
-                </li>
-            </ul>
-        </div>
-        <div class="ps-2">
-            <p class="h5">My Categories</p>
-            <ul class="list-unstyled">
-                <li class="my-2">
-                    <a href="#" class="text-success text-decoration-none lh-sm">Web Development</a>
-                </li>
-                <li class="my-2">
-                    <a href="#" class="text-success text-decoration-none lh-sm">Mobile Development</a>
-                </li>
-                <li class="my-2">
-                    <a href="#" class="text-success text-decoration-none lh-sm">Other - Software Development</a>
-                </li>
-            </ul>
-        </div>
-        <button class="btn-sm rounded-circle border bg-white"><i class="fas fa-pen"></i></button>
-    </div>
-    <div class="col-md-8 mb-4">
-
-        <div class="bg-white p-4 border">
-            <h4 class="mb-4">My Feed</h4>
-            <hr>
-            <div class="d-flex justify-content-between">
-                <div>
-                    <button class="btn badge rounded-pill bg-secondary mx-1">All</button>
-                    <button class="btn badge border rounded-pill bg-light text-secondary mx-1">
-                        Any /Web
-                        Content
-                    </button>
-                </div>
-                <button class="btn rounded-circle border"><i class="fas fa-ellipsis-h"></i></button>
-            </div>
-            <hr>
-            <div>
+<div class="row">
+    <div class="col-md-8">
+        @if (Model.Jobs.Any(j => j.Status == JobPostingStatus.Draft))
+        {
+            <div class="bg-white border rounded-2 p-4 mb-4">
                 <div class="d-flex justify-content-between">
-                    <a href="job-details.html" class="h5 text-success text-decoration-none">Lorem ipsum dolor sit amet.</a>
-                    <div>
-                        <button class="btn rounded-circle border">
-                            <i class="far fa-thumbs-down"></i>
-                        </button>
-                        <button class="btn rounded-circle border"><i class="far fa-heart"></i></button>
+                    <p class="h4">My Drafts</p>
+                    <a href="#" class="text-success text-decoration-none">All drafts</a>
+                </div>
+                @foreach (var posting in Model.Jobs.FindAll(j => j.Status == JobPostingStatus.Draft))
+                {
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="h6">@posting.Title</p>
+                            <p>Saved @posting.PostedDate.DateDifference()</p>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm rounded-circle border">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+
+        <div class="bg-white border rounded-2 p-4 mb-4">
+            <div class="d-flex justify-content-between">
+                <p class="h4">My Postings</p>
+                <a href="#" class="text-success text-decoration-none">All postings</a>
+            </div>
+            @if (Model.Jobs.Any(j => j.Status == JobPostingStatus.Published))
+            {
+                @foreach (var posting in Model.Jobs.FindAll(j => j.Status == JobPostingStatus.Published))
+                {
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="h6">@posting.Title</p>
+                            <p>Saved @posting.PostedDate.DateDifference()</p>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm rounded-circle border">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <hr />
+                <div class="d-flex justify-content-center p-4">
+                    <a asp-controller="JobPosting" asp-action="GettingStarted" class="btn btn-success rounded-pill px-4 mb-auto">Post a Job</a>
+                </div>
+            }
+        </div>
+
+        <div class="bg-white border rounded-2 p-4 mb-4">
+            <div class="d-flex justify-content-between">
+                <p class="h4">How to work with talent</p>
+                <button class="btn rounded-circle" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#content">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <p class="small text-secondary">
+                Connect with a talent community that numbers in the millions,
+                fast and at no cost
+            </p>
+
+            <div class="collapse" id="content">
+                <hr>
+                <div class="row">
+                    <div class="col-2 text-center">
+                        <i class="fas fa-file-alt fa-4x text-success"></i>
+                    </div>
+                    <div class="col-10">
+                        <div>
+                            <p class="h6">1. Post a job to the marketplace</p>
+                            <p class="small">
+                                What would you like to get done? Make sure you provide enough
+                                detail for
+                                great talent to identify if it's right for them.
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <p class="small text-secondary">
-                        <span class="fw-bolder">Fixed-price</span> -
-                        Intermediate - Est. Budget: $250 - Posted 43 minutes ago
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Deserunt provident veniam aperiam dolor,
-                        in aliquid ducimus quod ab non exercitationem, inventore fugit
-                        vel et numquam qui repellendus nam asperiores eum...<span>
-                            <a href="#"
-                               class="text-success fw-bolder text-decoration-none">more</a>
-                        </span>
-                    </p>
+                <hr>
+                <div class="row">
+                    <div class="col-2 text-center">
+                        <i class="fas fa-file-contract fa-4x text-success"></i>
+                    </div>
+                    <div class="col-10">
+                        <div>
+                            <p class="h6">2. Talent sends you proposals</p>
+                            <p class="small">
+                                With a strong job post, you should receive offers within hours.
+                                You can always edit your post, or send an invite to reach out to talent
+                                directly.
+                            </p>
+                            <p class="small">
+                                Not getting proposals? Try editing your post. <br>
+                                <a href="#" class="text-success text-decoration-none">
+                                    Check out examples of
+                                    effective job posts
+                                </a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-1">
-                    <button class="btn badge border rounded-pill bg-light text-secondary me-1">
-                        ASP.NET
-                        Core
-                    </button>
-                    <button class="btn badge border rounded-pill bg-light text-secondary mx-1">
-                        Microsoft SQL
-                        Server
-                    </button>
-                    <button class="btn badge border rounded-pill bg-light text-secondary mx-1">
-                        Microsoft
-                        Azure
-                    </button>
+                <hr>
+                <div class="row">
+                    <div class="col-2 text-center">
+                        <i class="fas fa-comments fa-3x text-success"></i>
+                    </div>
+                    <div class="col-10">
+                        <div>
+                            <p class="h6">3. Review Proposals</p>
+                            <p class="small">
+                                Here's your chance to ask questions about talent’s work
+                                experience,
+                                set expectations for what you need, and discuss terms of the engagement.
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <p class="small text-secondary">
-                        Proposals: <span class="fw-bolder">Less than 5</span>
-                    </p>
-                    <p class="small text-secondary">
-                        <i class="rounded-circle border border-2 border-secondary p-1 fas fa-check fa-xs me-1"></i>
-                        Payment unverified
-                        <span class="mx-2">
-                            <i class="fas fa-star fa-xs text-success"></i>
-                            <i class="fas fa-star fa-xs text-success"></i>
-                            <i class="fas fa-star fa-xs text-success"></i>
-                            <i class="fas fa-star fa-xs text-success"></i>
-                            <i class="fas fa-star fa-xs text-secondary"></i>
-                        </span>
-                        <span class="fw-bolder me-2">$0 spent</span>
-                        <span class="fw-bolder"><i class="fas fa-map-marker-alt me-1"></i>India</span>
-                    </p>
+                <hr>
+                <div class="row">
+                    <div class="col-2 text-center">
+                        <i class="fas fa-thumbs-up fa-3x text-success"></i>
+                    </div>
+                    <div class="col-10">
+                        <div>
+                            <p class="h6">4. Send a contract offer and start working</p>
+                            <p class="small">
+                                Once you both agree to your terms, start collaborating with
+                                simple, seamless,
+                                and secure tools like chat, file sharing, and the Work Diary. You only pay
+                                for work you authorize.
+                            </p>
+                            <p class="small">
+                                <a href="#" class="text-success text-decoration-none">
+                                    Learn about
+                                    payments
+                                </a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
+                <hr>
+                <p class="h6">
+                    Question?<br>
+                    <span class="fw-normal small">
+                        Visit our
+                        <a href="#" class="text-success text-decoration-none">Help Center</a>
+                        to learn more tips forfinding the right talent.
+                    </span>
+                </p>
             </div>
-            <hr />
         </div>
     </div>
-    <div class="col-md-2 ps-2">
-        <div class="my-3">
-            <p class="h5">My Profile</p>
-            <a href="#" class="text-success text-decoration-none"><i class="fas fa-eye me-1"></i> View Profile</a>
-        </div>
-        <div class="my-3">
-            <p class="fw-bold my-2">Visibility</p>
-            <span class="small"><i class="fas fa-globe me-1"></i> Public <button class="btn-sm rounded-circle border bg-white"><i class="fas fa-pen"></i></button> </span>
-        </div>
-        <div class="mb-2">
-            <p class="fw-bold my-2">Hours</p>
-            <div class="d-flex small">
-                <i class="far fa-clock me-2 mt-1"></i>
-                <span class="lh-sm"> As Needed - <br> Open to offers <button class="btn-sm rounded-circle border bg-white"><i class="fas fa-pen"></i></button> </span>
-            </div>
-        </div>
-        <div class="mb-2">
-            <p class="fw-bold my-2">Profile completion</p>
-            <div class="row">
-                <div class="col-10">
-                    <div class="progress mt-2" style="height: 7px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="col-md-4">
+        <div id="recommendedProjectsCarousel" class="carousel slide bg-white border rounded-2"
+             data-bs-ride="carousel" data-bs-interval="10000">
+            <button class="carousel-control-prev" type="button"
+                    data-bs-target="#recommendedProjectsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <div class="carousel-inner rounded-2">
+                <div class="carousel-item active">
+                    <div class="d-flex flex-column align-items-center">
+                        <img src="https://source.unsplash.com/random/120x90/?marketing"
+                             class="d-block w-100" alt="social media">
+                        <p class="m-3 text-center">We think you might need help with</p>
+                        <p class="h4 text-center mx-3">Social Media Marketing</p>
+                        <button class="btn btn-sm btn-outline-success rounded-pill px-4 mt-3 mb-4">
+                            Learn
+                            More
+                        </button>
                     </div>
+
                 </div>
-                <div class="col-2">
-                    <span class="small">100%</span>
+                <div class="carousel-item">
+                    <div class="d-flex flex-column align-items-center">
+                        <img src="https://source.unsplash.com/random/120x90/?web-design"
+                             class="d-block w-100" alt="web design">
+                        <p class="m-3 text-center">We think you might need help with</p>
+                        <p class="h4 text-center mx-3">Web Design</p>
+                        <button class="btn btn-sm btn-outline-success rounded-pill px-4 mt-3 mb-4">
+                            Learn
+                            More
+                        </button>
+                    </div>
+
+                </div>
+                <div class="carousel-item">
+                    <div class="d-flex flex-column align-items-center">
+                        <img src="https://source.unsplash.com/random/120x90/?programming"
+                             class="d-block w-100" alt="web development">
+                        <p class="m-3 text-center">We think you might need help with</p>
+                        <p class="h4 text-center mx-3">Web Application Development</p>
+                        <button class="btn btn-sm btn-outline-success rounded-pill px-4 mt-3 mb-4">
+                            Learn
+                            More
+                        </button>
+                    </div>
+
                 </div>
             </div>
-        </div>
-        <div class="my-3 d-flex flex-column">
-            <p class="fw-bold my-2">Proposals</p>
-            <a href="#" class="text-success text-decoration-none">2 submitted proposals</a>
-            <a href="#" class="text-success text-decoration-none">60 available connects</a>
+            <button class="carousel-control-next" type="button"
+                    data-bs-target="#recommendedProjectsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
 </div>

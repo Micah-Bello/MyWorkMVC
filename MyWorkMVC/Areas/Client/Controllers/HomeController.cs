@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MyWorkMVC.Data;
 using MyWorkMVC.Models;
 using MyWorkMVC.ViewModels;
 using System;
@@ -13,16 +16,31 @@ namespace MyWorkMVC.Areas.Client.Controllers
     [Area("Client")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<UserModel> _userManager;
+
+        public HomeController(ApplicationDbContext context, UserManager<UserModel> userManager)
         {
-            _logger = logger;
+            _context = context;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var jobs = await _context.JobPostings
+                .Where(jp => jp.UserId == currentUser.Id)
+                .ToListAsync();
+
+            var vm = new MyJobsViewModel
+            {
+                User = currentUser,
+                Jobs = jobs
+            };
+
+            return View(vm);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
